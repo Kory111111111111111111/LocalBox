@@ -548,7 +548,6 @@ export const CssColorNamesTool: ComponentType = () => {
             ))}
           </div>
         </div>
-        <Note>{list.length} shown — click any color to copy its HEX value. Click a swatch pair to confirm naming from the extended CSS palette.</Note>
       </div>
     </ToolLayout>
   );

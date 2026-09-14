@@ -44,14 +44,19 @@ LTB_SITE_URL=https://your-domain.example pnpm gen
 
 ## Deploy
 
-Any static host works (Cloudflare Pages, Netlify, GitHub Pages):
+GitHub Pages (this repo). Local/dev stays at `/`. CI sets `BASE_PATH=/LocalBox/` so assets, ffmpeg, and routes live under the project page.
 
 ```bash
-pnpm build   # outputs dist/
+pnpm build   # also writes dist/404.html (SPA refresh fallback) and dist/.nojekyll
 ```
 
-`public/_headers` ships baseline security headers. No server-side component is
-required or expected.
+Push to `main`. In the GitHub repo: **Settings → Pages → Source: GitHub Actions**. The workflow in `.github/workflows/pages.yml` builds `localtoolbox/` and publishes it to:
+
+`https://<user>.github.io/<repo>/`
+
+`LTB_SITE_URL` is set in that workflow so `sitemap.xml` / `llms.txt` use the Pages origin.
+
+`public/_headers` is for hosts that honor it (Cloudflare Pages). GitHub Pages ignores it; the single-thread ffmpeg core does not need COOP/COEP.
 
 ### Threading tradeoff (ffmpeg)
 

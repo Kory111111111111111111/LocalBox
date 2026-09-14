@@ -365,7 +365,7 @@ export const JwtDecoderTool: ComponentType = () => {
           {verifyResult && (
             <Note kind={verifyResult.startsWith("✓") ? "info" : "warn"}>{verifyResult}</Note>
           )}
-          <Note>Decoding happens locally in your browser. Verification only supports symmetric HS256 tokens and never sends the token anywhere.</Note>
+          <Note>Verification only supports symmetric HS256 tokens.</Note>
         </div>
       </div>
     </ToolLayout>

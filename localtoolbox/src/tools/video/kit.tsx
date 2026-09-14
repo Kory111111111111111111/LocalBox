@@ -136,7 +136,6 @@ export function makeFFmpegTool<S extends object>(cfg: FFToolConfig<S>): Componen
               ))}
             </ul>
           )}
-          <Note>Files are processed by ffmpeg compiled to WebAssembly, running entirely in this tab — no upload, no account, no size quota. Big files take a while; keep clips under a few minutes for the smoothest ride.</Note>
         </div>
       </ToolLayout>
     );

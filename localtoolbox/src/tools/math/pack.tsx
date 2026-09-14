@@ -233,7 +233,7 @@ export const ScientificCalcTool: ComponentType = () => {
             {history.map((h, i) => <div key={i} className="text-ink-muted">{h}</div>)}
           </div>
         )}
-        <Note>Supports + − × ÷, ^ powers, parentheses, and functions sin, cos, tan, log, ln, sqrt, abs. Evaluated locally with a restricted evaluator — no math library, no network.</Note>
+        <Note>Supports + − × ÷, ^ powers, parentheses, and functions sin, cos, tan, log, ln, sqrt, abs.</Note>
       </div>
     </ToolLayout>
   );

@@ -1,4 +1,5 @@
 import { Wifi, Cpu, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 import type { ToolDef } from "../lib/registry";
 import { CATEGORY_META, iconFor } from "../lib/icons";
 
@@ -6,7 +7,7 @@ export default function ToolCard({ tool, compact = false }: { tool: ToolDef; com
   const Icon = iconFor(tool.icon, tool.category);
   const dot = CATEGORY_META[tool.category]?.dot;
   return (
-    <a
+    <Link
       href={`/tools/${tool.slug}`}
       className="card p-3.5 flex flex-col gap-1.5 hover:border-ink-dim hover:bg-surface-2 transition-colors group"
     >
@@ -42,6 +43,6 @@ export default function ToolCard({ tool, compact = false }: { tool: ToolDef; com
           )}
         </>
       )}
-    </a>
+    </Link>
   );
 }

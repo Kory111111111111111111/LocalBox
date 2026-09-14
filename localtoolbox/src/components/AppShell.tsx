@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import Sidebar from "./Sidebar";
 import SearchBox from "./SearchBox";
 import SettingsModal, { type SettingsSection } from "./SettingsModal";
@@ -9,14 +9,13 @@ import { CircleHelp, Menu, Settings, X } from "lucide-react";
 const SETTINGS_PATHS: Record<string, SettingsSection> = {
   "/about": "about",
   "/privacy": "privacy",
-  "/contact": "contact",
 };
 
 export default function AppShell({ children }: { children: ReactNode }) {
   const [location, navigate] = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settingsSection, setSettingsSection] = useState<SettingsSection>("about");
+  const [settingsSection, setSettingsSection] = useState<SettingsSection>("appearance");
   const [faqOpen, setFaqOpen] = useState(false);
 
   useEffect(() => {
@@ -34,11 +33,13 @@ export default function AppShell({ children }: { children: ReactNode }) {
   }, [location]);
 
   const openSettings = useCallback(
-    (section: SettingsSection = "about") => {
+    (section: SettingsSection = "appearance") => {
       setSettingsSection(section);
       setFaqOpen(false);
       setSettingsOpen(true);
-      if (location in SETTINGS_PATHS) navigate(`/${section}`);
+      if (location in SETTINGS_PATHS && (section === "about" || section === "privacy")) {
+        navigate(`/${section}`);
+      }
     },
     [location, navigate],
   );
@@ -60,7 +61,9 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const changeSection = useCallback(
     (section: SettingsSection) => {
       setSettingsSection(section);
-      if (location in SETTINGS_PATHS) navigate(`/${section}`);
+      if (location in SETTINGS_PATHS && (section === "about" || section === "privacy")) {
+        navigate(`/${section}`);
+      }
     },
     [location, navigate],
   );
@@ -103,7 +106,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       <div className="flex flex-1 max-w-[1400px] mx-auto w-full">
-        <aside className="hidden lg:block w-56 shrink-0 border-r border-border-subtle">
+        <aside className="hidden lg:block w-56 shrink-0 border-r border-border-subtle sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto">
           <Sidebar />
         </aside>
         {drawerOpen && (
@@ -119,19 +122,9 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <footer className="border-t border-border-subtle mt-10">
         <div className="max-w-[1400px] mx-auto px-4 py-6 text-xs text-ink-dim flex flex-wrap gap-x-6 gap-y-2 items-center">
           <span>LocalToolBox — open source (MIT). Built to keep your files on your device.</span>
-          <span className="flex gap-4 ml-auto">
-            <button type="button" className="hover:text-ink-muted" onClick={() => openSettings("about")}>
-              About
-            </button>
-            <button type="button" className="hover:text-ink-muted" onClick={() => openSettings("privacy")}>
-              Privacy
-            </button>
-            <a href="/terms" className="hover:text-ink-muted">Terms</a>
-            <button type="button" className="hover:text-ink-muted" onClick={() => openSettings("contact")}>
-              Contact
-            </button>
-            <a href="/llms.txt" className="hover:text-ink-muted">llms.txt</a>
-          </span>
+          <Link href="/llms" className="hover:text-ink-muted ml-auto">
+            llms.txt
+          </Link>
         </div>
       </footer>
 

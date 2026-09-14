@@ -91,7 +91,7 @@ function PdfShell({ children, acceptFiles = false, files, onFiles, busy }: {
     <ToolLayout>
       <div className="flex flex-col gap-4">
         {acceptFiles && files && onFiles !== undefined && (
-          <Dropzone files={files} onFiles={onFiles} multiple accept="application/pdf,.pdf" hint="PDF files only — processed on your device" />
+          <Dropzone files={files} onFiles={onFiles} multiple accept="application/pdf,.pdf" />
         )}
         {children}
         {busy?.on && <ProgressBar value={busy.progress ?? 0.05} label={busy.label} />}
@@ -216,7 +216,6 @@ export const PdfSplitTool: ComponentType = () => {
       </OptionsBar>
       {error && <Note kind="error">{error}</Note>}
       <RunButton onClick={run} busy={!!busy} disabled={!files.length} label="Split PDF" />
-      <Note>Multiple outputs are bundled into a ZIP. Everything happens in your browser — the file is never uploaded.</Note>
     </PdfShell>
   );
 };
@@ -310,7 +309,7 @@ export const PdfToTextTool: ComponentType = () => {
       {error && <Note kind="error">{error}</Note>}
       <RunButton onClick={run} busy={!!busy} disabled={!files.length} label="Extract text" />
       {text && <OutputArea text={text} filename="extracted.txt" rows={14} label={`Extracted text (${text.length.toLocaleString()} characters)`} />}
-      <Note>Scanned PDFs (images of text) contain no text layer — for those, the result will be empty. The Transcribe tool can help with audio/video, but OCR for scans isn't in this build yet.</Note>
+      <Note>Scanned PDFs have no text layer — the result will be empty. OCR isn't in this build.</Note>
     </PdfShell>
   );
 };
@@ -410,7 +409,6 @@ export const PdfWatermarkTool: ComponentType = () => {
       </OptionsBar>
       {error && <Note kind="error">{error}</Note>}
       <RunButton onClick={run} busy={!!busy} disabled={!files.length} label="Add watermark" />
-      <Note>The watermark is drawn as real PDF text on every page — no server round-trip, no watermark on your privacy.</Note>
     </PdfShell>
   );
 };
@@ -585,7 +583,7 @@ export const PdfUnlockTool: ComponentType = () => {
       </OptionsBar>
       {error && <Note kind="error">{error}</Note>}
       <RunButton onClick={run} busy={!!busy} disabled={!files.length} label="Remove password" />
-      <Note>This is not cracking. It decrypts a PDF with the password you provide and rebuilds it without encryption — handy when a viewer keeps pestering you for a password you own.</Note>
+      <Note>Unlocks with the password you provide — not a cracker.</Note>
     </PdfShell>
   );
 };

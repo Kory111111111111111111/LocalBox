@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/gen-registry.mjs && tsc -b && vite build",
+    "build": "node scripts/gen-registry.mjs && tsc -b && vite build && node scripts/spa-fallback.mjs",
     "build:fast": "vite build",
     "preview": "vite preview",
     "gen": "node scripts/gen-registry.mjs",

@@ -524,7 +524,7 @@ export const SunriseSunsetTool: ComponentType = () => {
               { label: "Day length", value: res.daylight },
             ]} />
           ))}
-        <Note>Computed locally with the NOAA solar algorithm. Times shown are <strong>local solar time</strong> (based on longitude), not your clock timezone — add your timezone's UTC offset mentally, or compare with a weather app for the same date.</Note>
+        <Note>Computed with the NOAA solar algorithm. Times are <strong>local solar time</strong> (longitude), not your clock timezone.</Note>
       </div>
     </ToolLayout>
   );

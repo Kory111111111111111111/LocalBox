@@ -119,14 +119,14 @@ function FileHashTool({ label }: { label: string }) {
               <CopyButton text={digest} label=" " />
             </div>
           ))}
-          {Object.keys(hashes).length === 0 && <div className="px-3 py-5 text-sm text-ink-dim text-center">Drop a file — it is read in your browser, hashed, and never uploaded.</div>}
+          {Object.keys(hashes).length === 0 && <div className="px-3 py-5 text-sm text-ink-dim text-center">Drop a file.</div>}
         </div>
       </div>
     </ToolLayout>
   );
 }
-export const ChecksumTool: ComponentType = () => FileHashTool({ label: "Any file — checksums are computed locally" });
-export const FileHashToolExport: ComponentType = () => FileHashTool({ label: "Any file type — MD5/SHA digests, computed in your browser" });
+export const ChecksumTool: ComponentType = () => FileHashTool({ label: "Any file" });
+export const FileHashToolExport: ComponentType = () => FileHashTool({ label: "Any file type" });
 
 // ── HMAC ──
 export const HmacTool: ComponentType = () => {
@@ -311,7 +311,7 @@ export const PasswordStrengthTool: ComponentType = () => {
     <ToolLayout>
       <div className="flex flex-col gap-4">
         <label className="block">
-          <span className="label">Password (stays in your browser)</span>
+          <span className="label">Password</span>
           <input className="input font-mono" type="text" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Type or paste a password…" autoComplete="off" />
         </label>
         {s && (
@@ -332,7 +332,7 @@ export const PasswordStrengthTool: ComponentType = () => {
             )}
           </>
         )}
-        <Note>The estimate assumes a fast offline attack (~10 billion guesses/second). Nothing you type here is stored or sent anywhere.</Note>
+        <Note>The estimate assumes a fast offline attack (~10 billion guesses/second).</Note>
       </div>
     </ToolLayout>
   );
@@ -381,7 +381,7 @@ export const BcryptTool: ComponentType = () => {
             </OptionsBar>
           </>
         )}
-        <Note>bcrypt is intentionally slow — that's the point. Cost 10 takes roughly a tenth of a second in your browser; each +1 doubles it.</Note>
+        <Note>bcrypt is intentionally slow. Cost 10 is ~0.1s; each +1 doubles it.</Note>
       </div>
     </ToolLayout>
   );
@@ -420,7 +420,7 @@ export const RsaKeygenTool: ComponentType = () => {
           <>
             <OutputArea text={keys.pub} filename="public.pem" rows={5} label="Public key (PEM — safe to share)" />
             <OutputArea text={keys.priv} filename="private.pem" rows={5} label="Private key (PEM — keep secret!)" />
-            <Note kind="warn">The private key was generated in your browser and never left it. Store it somewhere safe — if you only saved it here, it's gone when you close the tab.</Note>
+            <Note kind="warn">Store this key somewhere safe — if you only saved it here, it's gone when you close the tab.</Note>
           </>
         )}
       </div>
@@ -515,7 +515,7 @@ export const JwtGeneratorTool: ComponentType = () => {
               <OutputArea text={token} rows={4} label="Signed token" filename="token.jwt" />
             </div>
           } />
-        <Note>Signs HS256 (symmetric) locally. Never paste a production secret into any web tool you don't fully trust — and remember this page's code is open source, so you can check exactly what it does.</Note>
+        <Note>HS256 only. Don't paste a production secret into a web tool.</Note>
       </div>
     </ToolLayout>
   );

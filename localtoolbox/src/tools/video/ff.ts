@@ -17,7 +17,7 @@ export async function getFFmpeg(onStatus?: (msg: string) => void): Promise<FFmpe
       for (const fn of progressListeners) fn(progress, t);
     });
     instance.on("log", () => { /* reserved for debugging */ });
-    const base = "/vendor/ffmpeg/core";
+    const base = `${import.meta.env.BASE_URL}vendor/ffmpeg/core`;
     await instance.load({
       coreURL: await toBlobURL(`${base}/ffmpeg-core.js`, "text/javascript"),
       wasmURL: await toBlobURL(`${base}/ffmpeg-core.wasm`, "application/wasm"),

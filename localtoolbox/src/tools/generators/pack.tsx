@@ -178,7 +178,7 @@ export const FakeDataTool: ComponentType = () => {
               <button className="btn-ghost" onClick={() => navigator.clipboard.writeText(tsv)}>Copy as TSV</button>
               <button className="btn-ghost" onClick={() => downloadBlob("fake-data.csv", new Blob([rows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n")], { type: "text/csv" }))}>Download CSV</button>
             </div>
-            <Note>All data is randomly assembled on your device and clearly fake (example.com emails, 555 phone numbers). Never present it as real identity data.</Note>
+            <Note>Clearly fake (example.com emails, 555 numbers). Don't present it as real identity data.</Note>
           </>
         )}
       </div>
@@ -247,7 +247,7 @@ export const RandomEmailTool: ComponentType = () => {
           <RunButton label="Generate" onClick={generate} />
         </OptionsBar>
         <OutputArea text={emails.join("\n")} filename="test-emails.txt" rows={6} label={`${emails.length} addresses`} />
-        <Note>For testing forms and seed data only — these addresses belong to the example.com-style domain you pick and shouldn't be used to sign up for real services.</Note>
+        <Note>Test addresses on the domain you pick — don't use them to sign up for real services.</Note>
       </div>
     </ToolLayout>
   );

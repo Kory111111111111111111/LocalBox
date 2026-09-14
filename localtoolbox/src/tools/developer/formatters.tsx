@@ -249,7 +249,7 @@ export const MarkdownToHtmlTool: ComponentType = transformTool({
     const html = marked.parse(input, { async: false }) as string;
     return s.sanitize ? DOMPurify.sanitize(html) : html;
   },
-  sample: "# LocalToolBox\n\n**Private** by default. Try `code`, [links](/), and lists:\n\n- runs locally\n- no account",
+  sample: "# Heading\n\n**Bold** and *italic*. Try `code`, [links](/), and lists:\n\n- one\n- two",
   filename: "converted.html",
   mime: "text/html",
 });
@@ -296,7 +296,7 @@ export const HtmlToMarkdownTool: ComponentType = transformTool({
     };
     return Array.from(doc.body.childNodes).map(walk).join("").replace(/\n{3,}/g, "\n\n").trim();
   },
-  sample: '<h1>LocalToolBox</h1>\n<p><b>Private</b> by default with <a href="/tools">316 tools</a>.</p>\n<ul><li>runs locally</li><li>no account</li></ul>',
+  sample: '<h1>Heading</h1>\n<p><b>Bold</b> with a <a href="/">link</a>.</p>\n<ul><li>one</li><li>two</li></ul>',
   filename: "converted.md",
 });
 

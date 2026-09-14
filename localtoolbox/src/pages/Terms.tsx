@@ -1,9 +1,5 @@
-export default function Terms() {
+export function TermsBody() {
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold tracking-tight mb-2">Terms of use</h1>
-      <p className="text-sm text-ink-dim mb-6">Last updated: September 2026</p>
-
       <div className="space-y-6 text-sm text-ink-muted leading-relaxed">
         <section>
           <h2 className="text-ink font-semibold mb-1.5">Acceptance</h2>
@@ -78,6 +74,15 @@ export default function Terms() {
           </p>
         </section>
       </div>
+  );
+}
+
+export default function Terms() {
+  return (
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-2xl font-semibold tracking-tight mb-2">Terms of use</h1>
+      <p className="text-sm text-ink-dim mb-6">Last updated: September 2026</p>
+      <TermsBody />
     </div>
   );
 }

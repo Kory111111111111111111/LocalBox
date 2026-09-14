@@ -58,7 +58,7 @@ export function imageTool<S extends object>(cfg: ImgState<S>): ComponentType {
     return (
       <ToolLayout>
         <div className="flex flex-col gap-4">
-          <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" hint="JPG, PNG, WebP, GIF, BMP, AVIF, HEIC — decoded on your device" />
+          <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" hint="JPG, PNG, WebP, GIF, BMP, AVIF, HEIC" />
           {cfg.controls && <OptionsBar>{cfg.controls(state, (p) => setState((s) => ({ ...s, ...p })))}</OptionsBar>}
           {error && <Note kind="error">{error}</Note>}
           <div className="flex items-center gap-3">
@@ -392,7 +392,7 @@ export const SvgToPngTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept=".svg,image/svg+xml" hint="SVG in — PNG out, rendered at the scale you choose" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept=".svg,image/svg+xml" />
         <OptionsBar>
           <label className="block"><span className="label">Scale — {scale}×</span>
             <input type="range" min={1} max={6} step={0.5} value={scale} onChange={(e) => setScale(Number(e.target.value))} className="w-44 accent-[var(--color-accent)]" /></label>
@@ -472,7 +472,7 @@ export const PngToSvgTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/png,image/*" hint="PNG or any raster in — quantized SVG out" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/png,image/*" />
         <OptionsBar>
           <label className="block"><span className="label">Colors — {colors}</span>
             <input type="range" min={2} max={32} value={colors} onChange={(e) => setColors(Number(e.target.value))} className="w-44 accent-[var(--color-accent)]" /></label>
@@ -488,7 +488,7 @@ export const PngToSvgTool: ComponentType = () => {
               <button className="btn-primary" onClick={() => downloadBlob("vectorized.svg", new Blob([svg], { type: "image/svg+xml" }))}>Download SVG</button>
               <button className="btn-ghost" onClick={() => navigator.clipboard.writeText(svg)}>Copy SVG code</button>
             </div>
-            <Note>This is a simple color-quantizing tracer: it reduces colors and emits crisp rectangles, which suits logos, screenshots and flat art. Photos will look posterized — that's the honest trade-off of a browser-only tracer with no heavy library.</Note>
+            <Note>Simple color-quantizing tracer. Logos and flat art work; photos look posterized.</Note>
           </>
         )}
       </div>

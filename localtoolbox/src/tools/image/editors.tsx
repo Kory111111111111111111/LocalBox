@@ -257,7 +257,7 @@ export const ImageWatermarkTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" hint="The image to stamp" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" />
         <Dropzone files={logoFiles} onFiles={(f) => setLogoFiles(toDropped(f))} accept="image/png,image/svg+xml" hint="Optional PNG/SVG logo — overrides the text watermark" />
         {error && <Note kind="error">{error}</Note>}
         <OptionsBar>
@@ -271,7 +271,6 @@ export const ImageWatermarkTool: ComponentType = () => {
           <NumField label="Size % of width" value={size} min={1} max={50} onChange={(v) => setSize(Math.max(1, Math.min(50, v || 4)))} />
           <RunButton onClick={apply} busy={busy} disabled={!canvas} label="Add watermark" />
         </OptionsBar>
-        <Note>Watermarks you add are yours — we never stamp anything on your output.</Note>
       </div>
     </ToolLayout>
   );
@@ -301,7 +300,7 @@ export const ImageMetadataTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" hint="EXIF is read locally — nothing is uploaded, nothing is changed" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" />
         {error && <Note kind="error">{error}</Note>}
         {meta && (
           <div className="card overflow-hidden">
@@ -392,7 +391,7 @@ Web manifest:
           <RunButton onClick={run} busy={busy} disabled={!files.length || !sizes.length} label="Generate favicons" />
         </OptionsBar>
         {error && <Note kind="error">{error}</Note>}
-        <Note>Square source images avoid letterboxing. The ZIP includes a short README with the exact HTML snippet for each size.</Note>
+        <Note>Square sources avoid letterboxing. ZIP includes HTML snippet for each size.</Note>
       </div>
     </ToolLayout>
   );

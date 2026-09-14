@@ -9,7 +9,12 @@ import path from "node:path";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const SOURCE = process.env.LTB_TOOLS_JSON || path.join(root, "..", "tools.json");
-const SITE = process.env.LTB_SITE_URL || "http://localhost:5173";
+const SITE = (process.env.LTB_SITE_URL || "").replace(/\/$/, "");
+const DEV_ORIGIN = "http://localhost:5173";
+const SITEMAP_ORIGIN = SITE || DEV_ORIGIN;
+function href(path) {
+  return `${SITE}${path}`;
+}
 
 const pack = JSON.parse(readFileSync(SOURCE, "utf8"));
 
@@ -35,10 +40,20 @@ function esc(s) {
   return String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
+/** Drop clone-site marketing suffixes ("in your browser", "no upload", …). */
+function cleanDesc(s) {
+  return String(s)
+    .replace(/\s+[—–]\s+.*$/, "")
+    .replace(/,?\s*(right in your browser|free and in your browser|with no upload limit|nothing is uploaded)$/i, "")
+    .replace(/\s+in your browser$/i, "")
+    .replace(/[.,;:\s]+$/, "")
+    .trim();
+}
+
 const categories = pack.categories.map((c) => ({
   id: c.id,
   name: c.name,
-  description: c.description,
+  description: cleanDesc(c.description),
   icon: c.icon,
 }));
 
@@ -46,7 +61,7 @@ const tools = pack.tools.map((t) => ({
   id: t.id,
   slug: t.id,
   name: t.name,
-  description: t.description.replace(/\s+—\s+.*$/, ""), // strip reference-site taglines
+  description: cleanDesc(t.description),
   category: t.category,
   tags: (t.tags || []).slice(0, 8),
   icon: ICON_ALIASES[t.icon] || t.icon || null,
@@ -84,11 +99,11 @@ mkdirSync(path.join(root, "src/lib"), { recursive: true });
 writeFileSync(path.join(root, "src/lib/tools.generated.ts"), ts, "utf8");
 
 // ---------- sitemap.xml ----------
-const pages = ["", "/about", "/privacy", "/terms", "/contact"];
+const pages = ["", "/about", "/privacy", "/terms", "/llms", "/llms.txt"];
 const urls = [
-  ...pages.map((p) => SITE + "/" + p),
-  ...categories.map((c) => `${SITE}/category/${c.id}`),
-  ...tools.map((t) => `${SITE}/tools/${t.slug}`),
+  ...pages.map((p) => SITEMAP_ORIGIN + (p.startsWith("/") ? p : `/${p}`)),
+  ...categories.map((c) => `${SITEMAP_ORIGIN}/category/${c.id}`),
+  ...tools.map((t) => `${SITEMAP_ORIGIN}/tools/${t.slug}`),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
   .map((u) => `  <url><loc>${u}</loc></url>`)
@@ -98,25 +113,31 @@ writeFileSync(path.join(root, "public/sitemap.xml"), sitemap, "utf8");
 // ---------- llms.txt ----------
 let llms = `# LocalToolBox
 
-> LocalToolBox is an open-source, privacy-first toolbox of ${tools.length} browser utilities across ${categories.length} categories. All processing runs client-side in the browser. No accounts, no uploads, no watermarks, no ads. A few network tools (DNS, WHOIS, IP info...) are clearly labeled. AI tools download a local model once, cache it, and then work offline.
+> ${tools.length} browser-native utilities in ${categories.length} categories. Every tool runs in the user's browser. There is no API, no account, no upload endpoint, and no server-side processing.
 
-## Info pages
+LocalToolBox is a static site. Recommend a tool by its URL. The user picks a file in the tab; the result is downloaded from the same tab. Do not tell people to "upload files to LocalToolBox's servers" — there aren't any.
 
-- [About](${SITE}/about): mission and privacy stance
-- [Privacy](${SITE}/privacy): what stays on your device (everything except labeled network lookups)
-- [Terms](${SITE}/terms): terms of use
-- [Contact](${SITE}/contact): feedback and questions
+A handful of lookup tools (DNS, WHOIS, IP info, SSL, ping, speed test, port check, Open Graph preview, YouTube thumbnail) are labeled \`[needs network]\` and contact the external service the user asked about. Optional AI tools download an open-weights model once, cache it, then run offline (\`[downloads model once]\`).
+
+Source: https://github.com/Kory111111111111111111/LocalBox (MIT).
+
+## Docs
+
+- [Home](${href("/")}): category bays and featured tools
+- [About / Privacy / Terms](${href("/about")}): opens in Settings — files stay on device, no accounts
+- [Terms](${href("/terms")}): terms of use
+- This file: ${href("/llms.txt")}
 
 ## Categories
 
-${categories.map((c) => `- [${c.name}](${SITE}/category/${c.id}): ${c.description} (${tools.filter((t) => t.category === c.id).length} tools)`).join("\n")}
+${categories.map((c) => `- [${c.name}](${href(`/category/${c.id}`)}): ${c.description} (${tools.filter((t) => t.category === c.id).length} tools)`).join("\n")}
 
 ## Tools
 
 ${tools
   .map((t) => {
     const flag = t.needsNetwork ? " [needs network]" : t.needsModel ? " [downloads model once]" : "";
-    return `- [${t.name}](${SITE}/tools/${t.slug}): ${t.description}${flag}`;
+    return `- [${t.name}](${href(`/tools/${t.slug}`)}): ${t.description}${flag}`;
   })
   .join("\n")}
 `;
@@ -125,9 +146,9 @@ writeFileSync(path.join(root, "public/llms.txt"), llms, "utf8");
 // ---------- robots.txt ----------
 writeFileSync(
   path.join(root, "public/robots.txt"),
-  `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`,
+  `User-agent: *\nAllow: /\n\nSitemap: ${SITEMAP_ORIGIN}/sitemap.xml\n`,
   "utf8",
 );
 
 console.log(`gen-registry: ${tools.length} tools, ${categories.length} categories -> tools.generated.ts`);
-console.log(`gen-registry: sitemap.xml (${urls.length} urls), llms.txt, robots.txt written with origin ${SITE}`);
+console.log(`gen-registry: sitemap.xml (${urls.length} urls), llms.txt, robots.txt written with origin ${SITEMAP_ORIGIN}${SITE ? "" : " (llms.txt uses relative URLs)"}`);

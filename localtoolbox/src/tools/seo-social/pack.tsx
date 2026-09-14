@@ -232,7 +232,6 @@ export const KeywordDensityTool: ComponentType = () => {
             { label: "Verdict", value: stats.verdict },
           ]} />
         )}
-        <Note>There's no magic density number; modern ranking is far more about content quality. This just helps catch accidental stuffing or a target term you forgot to mention.</Note>
       </div>
     </ToolLayout>
   );
@@ -305,7 +304,7 @@ export const SchemaGenTool: ComponentType = () => {
 export const TweetImageTool: ComponentType = () => {
   const [name, setName] = useState("Local User");
   const [handle, setHandle] = useState("localuser");
-  const [text, setText] = useState("Just found a toolbox that runs entirely in my browser. No account, no uploads. 316 tools and counting!");
+  const [text, setText] = useState("Working through the backlog this week.");
   const [time, setTime] = useState("2:14 PM · Sep 14, 2026");
   const [likes, setLikes] = useState(1240);
   const [retweets, setRetweets] = useState(356);
@@ -388,7 +387,7 @@ export const TweetImageTool: ComponentType = () => {
           <canvas ref={canvasRef} className="max-w-full rounded-tool border border-border" aria-label="Tweet image preview" />
         </div>
         <button className="btn-primary self-start" onClick={download}>Download PNG (1200×675)</button>
-        <Note>Rendered on a local canvas — clearly a mock. Don't pass screenshot-style images off as real posts; label them when you share.</Note>
+        <Note>This is a mock. Don't pass it off as a real post.</Note>
       </div>
     </ToolLayout>
   );
@@ -491,7 +490,6 @@ export const BioGeneratorTool: ComponentType = () => {
             </div>
           ))}
         </div>
-        <Note>Starting points, not final copy — swap in your own specifics so it sounds like you.</Note>
       </div>
     </ToolLayout>
   );
@@ -528,7 +526,6 @@ export const HashtagTool: ComponentType = () => {
           {tags.map((t) => <span key={t} className="chip !text-[13px] !py-1 text-accent !border-accent/30">{t}</span>)}
         </div>
         <OutputArea text={tags.join(" ")} filename="hashtags.txt" rows={2} label="Copy-ready block" />
-        <Note>Generated from your topic words plus per-platform staples. Niche-specific tags (under ~500k posts) usually beat the mega-generic ones for reach.</Note>
       </div>
     </ToolLayout>
   );
@@ -562,7 +559,7 @@ export const OgPreviewTool: ComponentType = () => {
             <input className="input" value={url} onChange={(e) => setUrl(e.target.value)} /></label>
           <button className="btn-ghost self-end" onClick={fetchPreview}>Try fetching its og:image</button>
         </OptionsBar>
-        {fetched === null && !imageUrl && <Note>The fetch attempt is optional and works only for sites that allow cross-origin reads (many don't). Fill the fields manually otherwise — the preview itself is rendered locally.</Note>}
+        {fetched === null && !imageUrl && <Note>Fetch only works for sites that allow cross-origin reads. Fill the fields manually otherwise.</Note>}
         {fetched && <Note kind="info">Found og:image on the page (this was the only network request).</Note>}
         <div className="grid sm:grid-cols-2 gap-3">
           <label className="block"><span className="label">Title</span><input className="input" value={title} onChange={(e) => setTitle(e.target.value)} /></label>

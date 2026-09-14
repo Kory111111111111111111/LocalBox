@@ -26,7 +26,7 @@ export const RAW_CATEGORIES: RawCategory[] = [
   {
     "id": "video",
     "name": "Video & Audio",
-    "description": "Convert, trim, and extract audio from video — right in your browser",
+    "description": "Convert, trim, and extract audio from video",
     "icon": "Video"
   },
   {
@@ -431,7 +431,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "compress-video",
     "slug": "compress-video",
     "name": "Compress Video",
-    "description": "Shrink video file size while keeping good quality, right in your browser",
+    "description": "Shrink video file size while keeping good quality",
     "category": "video",
     "tags": [
       "video",
@@ -640,7 +640,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "merge-video",
     "slug": "merge-video",
     "name": "Merge Video",
-    "description": "Join several videos into one, any size or format, with no upload limit",
+    "description": "Join several videos into one, any size or format",
     "category": "video",
     "tags": [
       "video",
@@ -682,7 +682,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "reverse-video",
     "slug": "reverse-video",
     "name": "Reverse Video",
-    "description": "Play a video backwards, sound included, right in your browser",
+    "description": "Play a video backwards, sound included",
     "category": "video",
     "tags": [
       "video",
@@ -1041,7 +1041,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "html-viewer",
     "slug": "html-viewer",
     "name": "HTML Viewer",
-    "description": "Paste HTML and preview it rendered live in your browser",
+    "description": "Paste HTML and preview it rendered live",
     "category": "developer",
     "tags": [
       "html",
@@ -2785,7 +2785,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "image-rotate",
     "slug": "image-rotate",
     "name": "Rotate & Flip",
-    "description": "Rotate an image by 90, 180 or 270 degrees, or mirror it, free and in your browser",
+    "description": "Rotate an image by 90, 180 or 270 degrees, or mirror it",
     "category": "image",
     "tags": [
       "image",
@@ -3073,7 +3073,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "text-case",
     "slug": "text-case",
     "name": "Case Converter",
-    "description": "Convert text between upper, lower, title, camel case etc.",
+    "description": "Convert text between upper, lower, title, camel case etc",
     "category": "text",
     "tags": [
       "text",
@@ -3825,7 +3825,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "minify-js",
     "slug": "minify-js",
     "name": "Minify JavaScript",
-    "description": "Shrink JavaScript by removing comments and whitespace, right in your browser",
+    "description": "Shrink JavaScript by removing comments and whitespace",
     "category": "developer",
     "tags": [
       "javascript",
@@ -4317,7 +4317,7 @@ export const RAW_TOOLS: RawTool[] = [
     "id": "volume-convert",
     "slug": "volume-convert",
     "name": "Volume Converter",
-    "description": "Convert between liters, gallons, cups, etc.",
+    "description": "Convert between liters, gallons, cups, etc",
     "category": "converters",
     "tags": [
       "volume",

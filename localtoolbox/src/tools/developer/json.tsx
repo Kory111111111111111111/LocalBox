@@ -704,7 +704,7 @@ export const JsonSchemaValidatorTool: ComponentType = () => {
             </ul>
           </div>
         ))}
-      <Note>Supports a practical subset of JSON Schema: type, required, properties, items, enum, pattern, min/max constraints. No network, no ajv — the validator runs locally.</Note>
+      <Note>Supports a practical subset of JSON Schema: type, required, properties, items, enum, pattern, min/max constraints.</Note>
     </ToolLayout>
   );
 };

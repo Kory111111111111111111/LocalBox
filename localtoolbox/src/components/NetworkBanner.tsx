@@ -14,8 +14,7 @@ export function NetworkBanner({ note }: { note?: string }) {
       <Wifi size={15} className="mt-0.5 shrink-0" />
       <div>
         <strong className="font-semibold">Needs network.</strong>{" "}
-        {note ??
-          "This tool must contact an external service to answer your lookup. Only the request you make is sent — your files never leave your device. Every other tool here works fully offline."}
+        {note ?? "Sends only the lookup you type."}
       </div>
     </div>
   );
@@ -30,7 +29,7 @@ export function ModelBanner({ note }: { note?: string }) {
       <FileWarning size={15} className="mt-0.5 shrink-0" />
       <div>
         <strong className="font-semibold">Downloads an AI model once.</strong>{" "}
-        {note ?? "The model is fetched the first time you run this tool, then cached in your browser for offline reuse. Nothing you process is ever uploaded."}
+        {note ?? "Fetched the first time you run this, then cached for offline reuse."}
       </div>
     </div>
   );

@@ -18,15 +18,16 @@
 
   --color-accent: #3b82f6;
   --color-accent-hover: #60a5fa;
-  --color-accent-muted: rgb(59 130 246 / 0.15);
+  --color-accent-fg: #ffffff;
+  --color-accent-muted: color-mix(in srgb, var(--color-accent) 18%, transparent);
 
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
   --color-info: #38bdf8;
 
-  --color-netbanner-bg: rgb(245 158 11 / 0.12);
-  --color-netbanner-border: rgb(245 158 11 / 0.35);
+  --color-netbanner-bg: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  --color-netbanner-border: color-mix(in srgb, var(--color-warning) 35%, transparent);
   --color-netbanner-text: #fbbf24;
 
   --radius-tool: 10px;
@@ -65,7 +66,7 @@
 
 @layer components {
   .btn-primary {
-    @apply btn bg-accent text-white hover:bg-accent-hover;
+    @apply btn bg-accent text-accent-fg hover:bg-accent-hover;
   }
   .btn-ghost {
     @apply btn border border-border text-ink-muted hover:text-ink hover:border-ink-dim bg-transparent;

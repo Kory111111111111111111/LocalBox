@@ -13,7 +13,7 @@ export default function NotFound() {
       <Link href="/" className="btn-primary">Go to the homepage</Link>
       <div className="mt-8 flex flex-wrap justify-center gap-2">
         {CATEGORIES.map((c) => (
-          <a key={c.id} href={`/category/${c.id}`} className="chip hover:text-ink">{c.name}</a>
+          <Link key={c.id} href={`/category/${c.id}`} className="chip hover:text-ink">{c.name}</Link>
         ))}
       </div>
     </div>

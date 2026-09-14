@@ -7,7 +7,7 @@ export default function PrivacyCallout() {
       <div className="text-[13px] leading-relaxed">
         <strong className="text-ink font-semibold">Files stay on your device.</strong>{" "}
         <span className="text-ink-muted">
-          This tool runs entirely in your browser — there is no server-side processing, no upload,
+          This site runs entirely in your browser — there is no server-side processing, no upload,
           and no account. Close the tab and nothing is left behind. LocalToolBox is open source, so
           you can verify exactly what the code does.
         </span>

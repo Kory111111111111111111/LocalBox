@@ -55,7 +55,7 @@ export const DnsLookupTool: ComponentType = () => {
             {history.map((h, i) => <span key={i} className="chip font-mono">{h}</span>)}
           </div>
         )}
-        <Note>Queries Cloudflare's public DNS-over-HTTPS service (1.1.1.1). The only data sent is the domain name and record type you typed — your IP is visible to the DNS resolver as with any DNS lookup.</Note>
+        <Note>Queries Cloudflare DNS-over-HTTPS (1.1.1.1).</Note>
       </div>
     </ToolLayout>
   );
@@ -104,11 +104,7 @@ export const WhoisTool: ComponentType = () => {
         </OptionsBar>
         {error && <Note kind="error">{error}</Note>}
         {result && <OutputArea text={result} rows={8} label="Registry data (RDAP)" />}
-        <Note>
-          Uses the modern RDAP protocol (rdap.org) — the successor to classic WHOIS, returning structured registry data.
-          Only the domain name you type is sent. Some registries expose less data via RDAP than via port-43 WHOIS, and
-          thick privacy redactions apply exactly as on other public lookup services.
-        </Note>
+        <Note>Uses RDAP (rdap.org). Some registries return less than classic port-43 WHOIS, including privacy redactions.</Note>
       </div>
     </ToolLayout>
   );
@@ -166,11 +162,7 @@ export const PingTool: ComponentType = () => {
           </div>
         )}
         {avg !== null && <StatGrid items={[{ label: "Average HTTP reply", value: `${avg.toFixed(0)} ms`, strong: true }, { label: "Success rate", value: `${Math.round((okRows.length / rows.length) * 100)}%` }]} />}
-        <Note kind="warn">
-          Browsers cannot send ICMP packets, so this measures HTTP request round-trips, not a true ping. It tells you a
-          site is reachable and roughly how fast it answers from your connection — it is not a substitute for `ping` in a
-          terminal. Your request goes directly from your browser to the target host.
-        </Note>
+        <Note kind="warn">Browsers can't send ICMP, so this is HTTP round-trip time — not a terminal ping.</Note>
       </div>
     </ToolLayout>
   );
@@ -216,11 +208,7 @@ export const SslCheckerTool: ComponentType = () => {
         )}
         <StatGrid items={[{ label: "Details view", value: "SSL Labs (external)", strong: false }]} />
         <a className="btn-ghost self-start" href={`https://www.ssllabs.com/ssltest/analyze.html?d=${encodeURIComponent(host.trim().replace(/^https?:\/\//, "").replace(/\/.*$/, ""))}`} target="_blank" rel="noreferrer">Open full analysis on SSL Labs ↗</a>
-        <Note>
-          Browsers can't read raw certificates from JavaScript, so this tool shows what your browser itself validated during
-          the handshake — which is the part that protects you — and links out to SSL Labs for certificate details. Only your
-          check request is sent.
-        </Note>
+        <Note>Browsers can't read raw certificates from JavaScript. This reports the handshake your browser already validated; SSL Labs has the cert details.</Note>
       </div>
     </ToolLayout>
   );
@@ -269,11 +257,7 @@ export const SpeedTestTool: ComponentType = () => {
             { label: "Best latency", value: latency === null ? "—" : `${latency.toFixed(0)} ms`, strong: true },
           ]} />
         )}
-        <Note>
-          Downloads a fixed 25 MB payload from Cloudflare's public speed-test endpoint (speed.cloudflare.com) and measures
-          throughput from your browser. That download is the only traffic this test generates; nothing about you is uploaded.
-          Results are approximate and vary with Wi-Fi, VPNs, and network congestion.
-        </Note>
+        <Note>Downloads 25 MB from Cloudflare's public speed-test endpoint. Results vary with Wi-Fi, VPNs, and congestion.</Note>
       </div>
     </ToolLayout>
   );
@@ -310,10 +294,7 @@ export const IpInfoTool: ComponentType = () => {
         {data && (
           <StatGrid items={fields.filter(([k]) => data[k] !== undefined && data[k] !== "").map(([k, label]) => ({ label, value: String(data[k]) }))} />
         )}
-        <Note kind="warn">
-          Uses the free ipapi.co service. The IP you look up (or your public IP, if blank) is sent to ipapi.co — that's how
-          geolocation lookups work; the data lives with them, not us. Approximate city-level accuracy only.
-        </Note>
+        <Note kind="warn">Sends the IP to ipapi.co. City-level accuracy at best.</Note>
       </div>
     </ToolLayout>
   );
@@ -382,11 +363,7 @@ export const PortCheckerTool: ComponentType = () => {
             ))}
           </div>
         </div>
-        <Note kind="warn">
-          Browsers cannot open arbitrary TCP sockets, so genuine port scanning is impossible from a web page — anything
-          claiming otherwise online is doing it server-side. This tool best-effort probes TLS ports and doubles as a
-          learning reference. Only point it at systems you own or have permission to test.
-        </Note>
+        <Note kind="warn">Browsers can't open arbitrary TCP sockets, so this is a best-effort TLS probe, not a real port scan. Only test systems you own.</Note>
       </div>
     </ToolLayout>
   );
@@ -563,7 +540,7 @@ export const UserAgentTool: ComponentType = () => {
           { label: "Rendering engine", value: parsed.engine },
         ]} />
         <button className="btn-ghost self-start" onClick={() => setUa(navigator.userAgent)}>Reset to this browser's UA</button>
-        <Note>Parsed locally with pattern matching. UA strings are increasingly frozen/counter-intuitive (all Chromium browsers say "Chrome"), so treat engine and version as best-effort.</Note>
+        <Note>UA strings are often frozen (Chromium browsers all say "Chrome") — engine and version are best-effort.</Note>
       </div>
     </ToolLayout>
   );

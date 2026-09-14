@@ -35,7 +35,7 @@ export const ZipCreatorTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles((old) => [...old, ...toDropped(f)])} onRemove={(id) => setFiles((old) => old.filter((x) => x.id !== id))} multiple hint="Any file types — zipped entirely in your browser" />
+        <Dropzone files={files} onFiles={(f) => setFiles((old) => [...old, ...toDropped(f)])} onRemove={(id) => setFiles((old) => old.filter((x) => x.id !== id))} multiple />
         <OptionsBar>
           <SelField label="Compression" value={String(level)} onChange={(v) => setLevel(Number(v))} options={[
             { value: "0", label: "Store (no compression)" }, { value: "6", label: "Balanced" }, { value: "9", label: "Maximum" },
@@ -212,7 +212,7 @@ export const ExcelToJsonTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept=".xlsx,.xls,.csv" hint=".xlsx, legacy .xls, or CSV" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept=".xlsx,.xls,.csv" hint=".xlsx, .xls, or CSV" />
         <RunButton onClick={process} busy={busy} disabled={!files.length} label="Convert to JSON" />
         {error && <Note kind="error">{error}</Note>}
         {sheets.length > 1 && (

@@ -16,7 +16,6 @@ export const VideoConverterTool: ComponentType = makeFFmpegTool<{
 }>({
   accept: VIDEO_ACCEPT,
   hint: "MP4, WebM, MOV, MKV, AVI…",
-  initNote: undefined,
   controls: (s, set) => (
     <>
       <SelField label="Convert to" value={s.format ?? "webm"} onChange={(v) => set({ format: v })} options={[
@@ -44,7 +43,6 @@ export const VideoConverterTool: ComponentType = makeFFmpegTool<{
 // ── 2. Compress video ──
 export const CompressVideoTool: ComponentType = makeFFmpegTool<{ target: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Re-encodes with a smarter encoder to shrink the file",
   controls: (s, set) => (
     <SelField label="Target" value={s.target ?? "balanced"} onChange={(v) => set({ target: v })} options={[
       { value: "gentle", label: "Gentle — near-original quality" },
@@ -62,7 +60,6 @@ export const CompressVideoTool: ComponentType = makeFFmpegTool<{ target: string 
 // ── 3. Extract audio ──
 export const ExtractAudioTool: ComponentType = makeFFmpegTool<{ format: string; quality: number }>({
   accept: VIDEO_ACCEPT,
-  hint: "Pulls the audio track out of any video",
   controls: (s, set) => (
     <>
       <SelField label="Format" value={s.format ?? "mp3"} onChange={(v) => set({ format: v })} options={[
@@ -90,7 +87,6 @@ export const ExtractAudioTool: ComponentType = makeFFmpegTool<{ format: string; 
 // ── 4. Trim video ──
 export const TrimVideoTool: ComponentType = makeFFmpegTool<{ start: number; end: number; mode: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Cut a clip by start & end times — no re-encode in copy mode",
   controls: (s, set, probe) => (
     <>
       <NumField label="Start (seconds)" value={s.start ?? 0} min={0} max={probe?.duration ?? 99999} step={0.1} onChange={(v) => set({ start: Math.max(0, v || 0) })} />
@@ -113,7 +109,6 @@ export const TrimVideoTool: ComponentType = makeFFmpegTool<{ start: number; end:
 // ── 5. Mute video ──
 export const MuteVideoTool: ComponentType = makeFFmpegTool<{}>({
   accept: VIDEO_ACCEPT,
-  hint: "Removes the audio track without re-encoding video",
   run: async () => ({ args: ["-i", "in0", "-an", "-c:v", "copy", "muted.mp4"], outputs: ["muted.mp4"] }),
 });
 
@@ -141,7 +136,6 @@ export const VideoToGifTool: ComponentType = makeFFmpegTool<{ fps: number; width
 // ── 7. Resize video ──
 export const ResizeVideoTool: ComponentType = makeFFmpegTool<{ preset: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Scales down without stretching (keeps aspect ratio)",
   controls: (s, set) => (
     <SelField label="Resolution" value={s.preset ?? "720"} onChange={(v) => set({ preset: v })} options={[
       { value: "1080", label: "1080p" }, { value: "720", label: "720p" }, { value: "480", label: "480p" }, { value: "360", label: "360p" },
@@ -156,7 +150,6 @@ export const ResizeVideoTool: ComponentType = makeFFmpegTool<{ preset: string }>
 // ── 8. Crop video ──
 export const CropVideoTool: ComponentType = makeFFmpegTool<{ ratio: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Center-crops to a platform aspect ratio",
   controls: (s, set) => (
     <SelField label="Aspect ratio" value={s.ratio ?? "square"} onChange={(v) => set({ ratio: v })} options={[
       { value: "square", label: "1:1 square" }, { value: "vertical", label: "9:16 vertical (Reels/TikTok)" }, { value: "wide", label: "16:9 widescreen" },
@@ -184,7 +177,6 @@ export const MergeVideoTool: ComponentType = makeFFmpegTool<{}>({
 // ── 10. Speed ──
 export const SpeedVideoTool: ComponentType = makeFFmpegTool<{ speed: number; audio: boolean }>({
   accept: VIDEO_ACCEPT,
-  hint: "0.25× to 4× — pitch-corrected audio",
   controls: (s, set) => (
     <>
       <SelField label="Speed" value={S(s.speed ?? 1.5)} onChange={(v) => set({ speed: Number(v) })} options={[
@@ -219,7 +211,6 @@ export const ReverseVideoTool: ComponentType = makeFFmpegTool<{ audio: boolean }
 // ── 12. Loop ──
 export const LoopVideoTool: ComponentType = makeFFmpegTool<{ times: number }>({
   accept: VIDEO_ACCEPT,
-  hint: "Repeats the clip N times into one file",
   controls: (s, set) => <NumField label="Repeat count" value={s.times ?? 3} min={2} max={10} onChange={(v) => set({ times: Math.min(10, Math.max(2, v || 3)) })} />,
   run: async (files, s) => {
     const n = Math.min(10, Math.max(2, s.times ?? 3));
@@ -234,7 +225,7 @@ export const LoopVideoTool: ComponentType = makeFFmpegTool<{ times: number }>({
 // ── Audio converter ──
 export const AudioConverterTool: ComponentType = makeFFmpegTool<{ format: string; bitrate: number }>({
   accept: AUDIO_ACCEPT,
-  hint: "MP3, WAV, M4A, OGG, FLAC — decoded and re-encoded locally",
+  hint: "MP3, WAV, M4A, OGG, FLAC",
   controls: (s, set) => (
     <>
       <SelField label="Convert to" value={s.format ?? "mp3"} onChange={(v) => set({ format: v })} options={[
@@ -264,7 +255,6 @@ export const AudioConverterTool: ComponentType = makeFFmpegTool<{ format: string
 // ── 13. Split video ──
 export const SplitVideoTool: ComponentType = makeFFmpegTool<{ parts: number }>({
   accept: VIDEO_ACCEPT,
-  hint: "Cuts into roughly N equal parts at keyframes, delivered as a ZIP",
   controls: (s, set, probe) => (
     <NumField label="Parts" value={s.parts ?? 3} min={2} max={20} onChange={(v) => set({ parts: Math.min(20, Math.max(2, v || 3)) })} hint={probe ? `≈ ${((probe.duration / (s.parts ?? 3)) || 0).toFixed(1)}s each` : undefined} />
   ),
@@ -309,7 +299,7 @@ export const AddMusicTool: ComponentType = makeFFmpegTool<{ mode: string; volume
 // ── 15. Cut audio ──
 export const CutAudioTool: ComponentType = makeFFmpegTool<{ start: number; end: number; mode: string }>({
   accept: AUDIO_ACCEPT,
-  hint: "Trim any audio file between two times",
+  hint: "MP3, WAV, M4A, OGG, FLAC",
   controls: (s, set, probe) => (
     <>
       <NumField label="Start (s)" value={s.start ?? 0} min={0} step={0.1} onChange={(v) => set({ start: Math.max(0, v || 0) })} />
@@ -332,7 +322,6 @@ export const MergeAudioTool: ComponentType = makeFFmpegTool<{ format: string }>(
   accept: AUDIO_ACCEPT,
   multiple: true,
   minFiles: 2,
-  hint: "Joins tracks back-to-back (transcodes to one format)",
   controls: (s, set) => (
     <SelField label="Output format" value={s.format ?? "mp3"} onChange={(v) => set({ format: v })} options={[
       { value: "mp3", label: "MP3" }, { value: "wav", label: "WAV" }, { value: "m4a", label: "M4A" }, { value: "ogg", label: "OGG" },
@@ -400,7 +389,6 @@ export const SlideshowTool: ComponentType = makeFFmpegTool<{ seconds: number; au
 // ── 19. Reframe (blur-fill vertical) ──
 export const ReframeTool: ComponentType = makeFFmpegTool<{ ratio: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Fits the whole frame with a blurred background — nothing cropped",
   controls: (s, set) => (
     <SelField label="Canvas" value={s.ratio ?? "9:16"} onChange={(v) => set({ ratio: v })} options={[
       { value: "9:16", label: "9:16 vertical" }, { value: "1:1", label: "1:1 square" },
@@ -417,7 +405,6 @@ export const ReframeTool: ComponentType = makeFFmpegTool<{ ratio: string }>({
 // ── 20. Volume booster ──
 export const VolumeTool: ComponentType = makeFFmpegTool<{ gain: number; normalize: boolean }>({
   accept: `${VIDEO_ACCEPT},${AUDIO_ACCEPT}`,
-  hint: "Works on video (adjusts its audio) or plain audio files",
   controls: (s, set) => (
     <>
       <NumField label="Volume ×" value={s.gain ?? 2} min={0.25} max={10} step={0.25} onChange={(v) => set({ gain: v || 1 })} />
@@ -438,7 +425,6 @@ export const VolumeTool: ComponentType = makeFFmpegTool<{ gain: number; normaliz
 // ── 21. Extract frames ──
 export const ExtractFramesTool: ComponentType = makeFFmpegTool<{ every: number; format: string }>({
   accept: VIDEO_ACCEPT,
-  hint: "Saves stills — one every N seconds",
   controls: (s, set) => (
     <>
       <NumField label="One frame every (s)" value={s.every ?? 1} min={0.1} max={60} step={0.1} onChange={(v) => set({ every: Math.max(0.1, v || 1) })} />
@@ -479,7 +465,6 @@ export const WatermarkVideoTool: ComponentType = makeFFmpegTool<{ position: stri
 // ── 23. Remove silence ──
 export const RemoveSilenceTool: ComponentType = makeFFmpegTool<{ threshold: string; minPause: number }>({
   accept: AUDIO_ACCEPT,
-  hint: "Cuts long pauses (podcasts, lectures, voice notes)",
   controls: (s, set) => (
     <>
       <SelField label="Sensitivity" value={s.threshold ?? "-30dB"} onChange={(v) => set({ threshold: v })} options={[
@@ -497,7 +482,6 @@ export const RemoveSilenceTool: ComponentType = makeFFmpegTool<{ threshold: stri
 // ── 24. Boomerang ──
 export const BoomerangTool: ComponentType = makeFFmpegTool<{ }>({
   accept: VIDEO_ACCEPT,
-  hint: "Forward + reversed = the classic boomerang loop",
   run: async () => ({
     args: ["-i", "in0", "-filter_complex", "[0:v]split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[outv]", "-map", "[outv]", "-an", "-c:v", "libx264", "-crf", "22", "-movflags", "+faststart", "boomerang.mp4"],
     outputs: ["boomerang.mp4"],

@@ -1,12 +1,15 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { Info, Mail, Send, Shield, X } from "lucide-react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
+import { FileText, Info, Palette, Shield, X } from "lucide-react";
+import { TermsBody } from "../pages/Terms";
+import AppearanceSettings from "./AppearanceSettings";
 
-export type SettingsSection = "about" | "privacy" | "contact";
+export type SettingsSection = "appearance" | "about" | "privacy" | "terms";
 
 const SECTIONS: { id: SettingsSection; label: string; icon: typeof Info }[] = [
+  { id: "appearance", label: "Appearance", icon: Palette },
   { id: "about", label: "About", icon: Info },
   { id: "privacy", label: "Privacy", icon: Shield },
-  { id: "contact", label: "Contact", icon: Mail },
+  { id: "terms", label: "Terms", icon: FileText },
 ];
 
 export default function SettingsModal({
@@ -114,12 +117,14 @@ function SettingsSectionBody({
   onSectionChange: (section: SettingsSection) => void;
 }) {
   switch (section) {
+    case "appearance":
+      return <AppearanceSettings />;
     case "about":
       return <AboutBody onOpenPrivacy={() => onSectionChange("privacy")} />;
     case "privacy":
       return <PrivacyBody />;
-    case "contact":
-      return <ContactBody />;
+    case "terms":
+      return <TermsSection />;
     default: {
       const _exhaustive: never = section;
       return _exhaustive;
@@ -247,6 +252,16 @@ function PrivacyBody() {
   );
 }
 
+function TermsSection() {
+  return (
+    <div>
+      <h3 className="text-lg font-semibold tracking-tight mb-2">Terms of use</h3>
+      <p className="text-sm text-ink-dim mb-6">Last updated: September 2026</p>
+      <TermsBody />
+    </div>
+  );
+}
+
 function PrivacyBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
@@ -256,59 +271,3 @@ function PrivacyBlock({ title, children }: { title: string; children: ReactNode 
   );
 }
 
-function ContactBody() {
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-
-  const mailto = `mailto:hello@localtoolbox.app?subject=${encodeURIComponent(
-    subject || "LocalToolBox feedback",
-  )}&body=${encodeURIComponent(message)}`;
-
-  return (
-    <div>
-      <h3 className="text-lg font-semibold tracking-tight mb-2">Contact & feedback</h3>
-      <p className="text-sm text-ink-muted mb-6 leading-relaxed">
-        Found a bug, spotted a missing tool, or want to say hi? This form opens your own email
-        client with the message pre-filled — nothing is sent until you press send there, because
-        LocalToolBox has no backend to receive it.
-      </p>
-
-      <div className="card p-4 space-y-4">
-        <label className="block">
-          <span className="label">Subject</span>
-          <input
-            className="input"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            placeholder="Tool suggestion, bug report, question…"
-          />
-        </label>
-        <label className="block">
-          <span className="label">Message</span>
-          <textarea
-            className="textarea !font-sans"
-            rows={6}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Tell us what's on your mind…"
-          />
-        </label>
-        <div className="flex flex-wrap items-center gap-3">
-          <a href={mailto} className="btn-primary">
-            <Send size={13} />
-            Open in email client
-          </a>
-          <span className="text-xs text-ink-dim flex items-center gap-1">
-            <Mail size={12} />
-            or write to hello@localtoolbox.app
-          </span>
-        </div>
-      </div>
-
-      <p className="text-xs text-ink-dim mt-5 leading-relaxed">
-        Prefer no email at all? The project accepts issues and pull requests on its public
-        repository — that's often the fastest route for bug reports since others can chime in.
-      </p>
-    </div>
-  );
-}

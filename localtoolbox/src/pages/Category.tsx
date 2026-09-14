@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "wouter";
 import { CATEGORIES, CATEGORY_BY_ID, toolsIn } from "../lib/registry";
 import ToolCard from "../components/ToolCard";
 
@@ -28,7 +29,7 @@ export default function Category({ params }: { params: { id: string } }) {
         </p>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
-            <a key={c.id} href={`/category/${c.id}`} className="chip hover:text-ink">{c.name}</a>
+            <Link key={c.id} href={`/category/${c.id}`} className="chip hover:text-ink">{c.name}</Link>
           ))}
         </div>
       </div>
@@ -39,11 +40,11 @@ export default function Category({ params }: { params: { id: string } }) {
     <div className="max-w-5xl mx-auto">
       <header className="mb-6">
         <nav aria-label="Breadcrumb" className="text-xs text-ink-dim mb-2">
-          <a href="/" className="hover:text-ink-muted">Home</a> / <span className="text-ink-muted">{cat.name}</span>
+          <Link href="/" className="hover:text-ink-muted">Home</Link> / <span className="text-ink-muted">{cat.name}</span>
         </nav>
         <h1 className="text-2xl font-semibold tracking-tight">{cat.name}</h1>
         <p className="text-sm text-ink-muted mt-1">
-          {cat.description} — {toolsIn(cat.id).length} tools, all running locally in your browser.
+          {cat.description} — {toolsIn(cat.id).length} tools.
         </p>
       </header>
 

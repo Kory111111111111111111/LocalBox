@@ -22,7 +22,7 @@ export const HtmlViewerTool: ComponentType = () => {
             srcDoc={code}
           />
         } />
-      <Note>The preview runs in a sandboxed iframe — no network access to your files, and scripts stay off unless you enable them.</Note>
+      <Note>Sandboxed iframe. Scripts stay off unless you enable them.</Note>
     </ToolLayout>
   );
 };

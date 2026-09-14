@@ -31,7 +31,6 @@ function DownloadPanel({ progress, note }: { progress: { avg: number; items: Rec
     <div className="card border-info/30 bg-info/5 p-3.5 flex flex-col gap-2">
       <div className="text-[13px] text-info font-medium">{note}</div>
       <ProgressBar value={progress.avg} label={`${Math.round(progress.avg * 100)}%`} />
-      <div className="text-[11px] text-ink-dim">Cached in your browser afterwards — next runs work offline.</div>
     </div>
   );
 }
@@ -122,7 +121,7 @@ export const TranscribeTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="audio/*,video/*" hint="Audio or video — speech is recognized on your device" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="audio/*,video/*" hint="Audio or video" />
         <DownloadPanel progress={model} note={WHISPER_NOTE} />
         {error && <Note kind="error">{error}</Note>}
         <div className="flex items-center gap-3">
@@ -199,7 +198,7 @@ export const SubtitleGeneratorTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="audio/*,video/*" hint="The speech becomes timed cues, editable below before export" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="audio/*,video/*" hint="Audio or video" />
         <DownloadPanel progress={model} note={WHISPER_NOTE} />
         <OptionsBar>
           <SelField label="Subtitle format" value={format} onChange={setFormat} options={[{ value: "srt", label: "SRT" }, { value: "vtt", label: "WebVTT" }]} />
@@ -300,7 +299,7 @@ export const TextToSpeechTool: ComponentType = () => {
         <div className="flex gap-2">
           {!speaking ? <RunButton label="Speak" onClick={speak} /> : <button className="btn-danger" onClick={stop}>⏹ Stop</button>}
         </div>
-        <Note>Uses the Web Speech API — playback goes straight to your speakers using voices installed on your device. There is deliberately no audio-file export: browsers don't offer offline TTS-to-file, and we won't route your text through a cloud service to fake it.</Note>
+        <Note>Uses your device’s voices. No file export — browsers don’t support offline TTS-to-file.</Note>
       </div>
     </ToolLayout>
   );
@@ -389,7 +388,7 @@ export const BackgroundRemoverTool: ComponentType = () => {
   return (
     <ToolLayout>
       <div className="flex flex-col gap-4">
-        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" hint="Portraits and people work best (MODNet matting)" />
+        <Dropzone files={files} onFiles={(f) => setFiles(toDropped(f))} accept="image/*" />
         <DownloadPanel progress={model} note="Downloading MODNet (~28 MB, Apache-2.0) — portrait matting model" />
         <OptionsBar>
           <label className="block"><span className="label">Background</span>
@@ -415,7 +414,6 @@ export const BackgroundRemoverTool: ComponentType = () => {
             <button className="btn-primary self-start" onClick={() => downloadBlob("no-background.png", resultBlob)}>Download PNG</button>
           </>
         )}
-        <Note>MODNet (Apache-2.0) runs in WebAssembly inside this tab. The model downloads once from a public model hub, is cached by your browser, and your photos never leave the device.</Note>
       </div>
     </ToolLayout>
   );

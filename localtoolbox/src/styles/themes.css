@@ -1,0 +1,329 @@
+/* Palette ports. Tokens match globals.css @theme names so existing utilities restyle.
+   Sources: Nord, Gruvbox, Catppuccin, Tokyo Night, Dracula / Alucard. */
+
+html[data-theme="default-dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="default-light"] {
+  color-scheme: light;
+  --color-bg: #f3f5fa;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #e8ecf4;
+  --color-surface-3: #dde3ee;
+  --color-border: #c5cedd;
+  --color-border-subtle: #d8dee9;
+  --color-border-focus: #2563eb;
+  --color-ink: #0c1222;
+  --color-ink-muted: #3d4a63;
+  --color-ink-dim: #6b7a94;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-fg: #ffffff;
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #dc2626;
+  --color-info: #0284c7;
+  --color-netbanner-text: #b45309;
+  --shadow-tool: 0 1px 0 rgb(15 23 42 / 0.04), 0 8px 24px rgb(15 23 42 / 0.08);
+}
+
+/* Nord — Polar Night / Snow Storm + Frost */
+html[data-theme="nord-dark"] {
+  color-scheme: dark;
+  --color-bg: #2e3440;
+  --color-bg-elevated: #3b4252;
+  --color-surface: #3b4252;
+  --color-surface-2: #434c5e;
+  --color-surface-3: #4c566a;
+  --color-border: #4c566a;
+  --color-border-subtle: #3b4252;
+  --color-border-focus: #88c0d0;
+  --color-ink: #eceff4;
+  --color-ink-muted: #d8dee9;
+  --color-ink-dim: #81a1c1;
+  --color-accent: #88c0d0;
+  --color-accent-hover: #8fbcbb;
+  --color-accent-fg: #2e3440;
+  --color-success: #a3be8c;
+  --color-warning: #ebcb8b;
+  --color-danger: #bf616a;
+  --color-info: #81a1c1;
+  --color-netbanner-text: #ebcb8b;
+  --shadow-tool: 0 1px 0 rgb(236 239 244 / 0.04), 0 8px 24px rgb(0 0 0 / 0.35);
+}
+
+html[data-theme="nord-light"] {
+  color-scheme: light;
+  --color-bg: #eceff4;
+  --color-bg-elevated: #e5e9f0;
+  --color-surface: #e5e9f0;
+  --color-surface-2: #d8dee9;
+  --color-surface-3: #d8dee9;
+  --color-border: #c7ceda;
+  --color-border-subtle: #d8dee9;
+  --color-border-focus: #5e81ac;
+  --color-ink: #2e3440;
+  --color-ink-muted: #3b4252;
+  --color-ink-dim: #4c566a;
+  --color-accent: #5e81ac;
+  --color-accent-hover: #81a1c1;
+  --color-accent-fg: #eceff4;
+  --color-success: #4d7c0f;
+  --color-warning: #b45309;
+  --color-danger: #bf616a;
+  --color-info: #5e81ac;
+  --color-netbanner-text: #b45309;
+  --shadow-tool: 0 1px 0 rgb(46 52 64 / 0.04), 0 8px 24px rgb(46 52 64 / 0.08);
+}
+
+/* Gruvbox medium */
+html[data-theme="gruvbox-dark"] {
+  color-scheme: dark;
+  --color-bg: #282828;
+  --color-bg-elevated: #1d2021;
+  --color-surface: #3c3836;
+  --color-surface-2: #504945;
+  --color-surface-3: #665c54;
+  --color-border: #665c54;
+  --color-border-subtle: #3c3836;
+  --color-border-focus: #83a598;
+  --color-ink: #ebdbb2;
+  --color-ink-muted: #d5c4a1;
+  --color-ink-dim: #a89984;
+  --color-accent: #83a598;
+  --color-accent-hover: #8ec07c;
+  --color-accent-fg: #1d2021;
+  --color-success: #b8bb26;
+  --color-warning: #fabd2f;
+  --color-danger: #fb4934;
+  --color-info: #83a598;
+  --color-netbanner-text: #fabd2f;
+  --shadow-tool: 0 1px 0 rgb(235 219 178 / 0.04), 0 8px 24px rgb(0 0 0 / 0.4);
+}
+
+html[data-theme="gruvbox-light"] {
+  color-scheme: light;
+  --color-bg: #fbf1c7;
+  --color-bg-elevated: #f9f5d7;
+  --color-surface: #f9f5d7;
+  --color-surface-2: #ebdbb2;
+  --color-surface-3: #d5c4a1;
+  --color-border: #d5c4a1;
+  --color-border-subtle: #ebdbb2;
+  --color-border-focus: #076678;
+  --color-ink: #3c3836;
+  --color-ink-muted: #504945;
+  --color-ink-dim: #7c6f64;
+  --color-accent: #076678;
+  --color-accent-hover: #458588;
+  --color-accent-fg: #fbf1c7;
+  --color-success: #79740e;
+  --color-warning: #b57614;
+  --color-danger: #9d0006;
+  --color-info: #076678;
+  --color-netbanner-text: #b57614;
+  --shadow-tool: 0 1px 0 rgb(60 56 54 / 0.04), 0 8px 24px rgb(60 56 54 / 0.08);
+}
+
+/* Catppuccin — Latte, Frappé, Macchiato, Mocha */
+html[data-theme="catppuccin-latte"] {
+  color-scheme: light;
+  --color-bg: #eff1f5;
+  --color-bg-elevated: #e6e9ef;
+  --color-surface: #e6e9ef;
+  --color-surface-2: #ccd0da;
+  --color-surface-3: #bcc0cc;
+  --color-border: #acb0be;
+  --color-border-subtle: #ccd0da;
+  --color-border-focus: #1e66f5;
+  --color-ink: #4c4f69;
+  --color-ink-muted: #5c5f77;
+  --color-ink-dim: #6c6f85;
+  --color-accent: #1e66f5;
+  --color-accent-hover: #209fb5;
+  --color-accent-fg: #eff1f5;
+  --color-success: #40a02b;
+  --color-warning: #df8e1d;
+  --color-danger: #d20f39;
+  --color-info: #04a5e5;
+  --color-netbanner-text: #df8e1d;
+  --shadow-tool: 0 1px 0 rgb(76 79 105 / 0.04), 0 8px 24px rgb(76 79 105 / 0.08);
+}
+
+html[data-theme="catppuccin-frappe"] {
+  color-scheme: dark;
+  --color-bg: #303446;
+  --color-bg-elevated: #292c3c;
+  --color-surface: #414559;
+  --color-surface-2: #51576d;
+  --color-surface-3: #626880;
+  --color-border: #626880;
+  --color-border-subtle: #414559;
+  --color-border-focus: #8caaee;
+  --color-ink: #c6d0f5;
+  --color-ink-muted: #b5bfe2;
+  --color-ink-dim: #a5adce;
+  --color-accent: #8caaee;
+  --color-accent-hover: #99d1db;
+  --color-accent-fg: #232634;
+  --color-success: #a6d189;
+  --color-warning: #e5c890;
+  --color-danger: #e78284;
+  --color-info: #99d1db;
+  --color-netbanner-text: #e5c890;
+  --shadow-tool: 0 1px 0 rgb(198 208 245 / 0.04), 0 8px 24px rgb(0 0 0 / 0.35);
+}
+
+html[data-theme="catppuccin-macchiato"] {
+  color-scheme: dark;
+  --color-bg: #24273a;
+  --color-bg-elevated: #1e2030;
+  --color-surface: #363a4f;
+  --color-surface-2: #494d64;
+  --color-surface-3: #5b6078;
+  --color-border: #5b6078;
+  --color-border-subtle: #363a4f;
+  --color-border-focus: #8aadf4;
+  --color-ink: #cad3f5;
+  --color-ink-muted: #b8c0e0;
+  --color-ink-dim: #a5adcb;
+  --color-accent: #8aadf4;
+  --color-accent-hover: #91d7e3;
+  --color-accent-fg: #181926;
+  --color-success: #a6da95;
+  --color-warning: #eed49f;
+  --color-danger: #ed8796;
+  --color-info: #91d7e3;
+  --color-netbanner-text: #eed49f;
+  --shadow-tool: 0 1px 0 rgb(202 211 245 / 0.04), 0 8px 24px rgb(0 0 0 / 0.4);
+}
+
+html[data-theme="catppuccin-mocha"] {
+  color-scheme: dark;
+  --color-bg: #1e1e2e;
+  --color-bg-elevated: #181825;
+  --color-surface: #313244;
+  --color-surface-2: #45475a;
+  --color-surface-3: #585b70;
+  --color-border: #585b70;
+  --color-border-subtle: #313244;
+  --color-border-focus: #89b4fa;
+  --color-ink: #cdd6f4;
+  --color-ink-muted: #bac2de;
+  --color-ink-dim: #a6adc8;
+  --color-accent: #89b4fa;
+  --color-accent-hover: #74c7ec;
+  --color-accent-fg: #11111b;
+  --color-success: #a6e3a1;
+  --color-warning: #f9e2af;
+  --color-danger: #f38ba8;
+  --color-info: #89dceb;
+  --color-netbanner-text: #f9e2af;
+  --shadow-tool: 0 1px 0 rgb(205 214 244 / 0.04), 0 8px 24px rgb(0 0 0 / 0.45);
+}
+
+/* Tokyo Night — Night / Day */
+html[data-theme="tokyo-night"] {
+  color-scheme: dark;
+  --color-bg: #1a1b26;
+  --color-bg-elevated: #16161e;
+  --color-surface: #24283b;
+  --color-surface-2: #292e42;
+  --color-surface-3: #3b4261;
+  --color-border: #3b4261;
+  --color-border-subtle: #24283b;
+  --color-border-focus: #7aa2f7;
+  --color-ink: #c0caf5;
+  --color-ink-muted: #a9b1d6;
+  --color-ink-dim: #565f89;
+  --color-accent: #7aa2f7;
+  --color-accent-hover: #7dcfff;
+  --color-accent-fg: #1a1b26;
+  --color-success: #9ece6a;
+  --color-warning: #e0af68;
+  --color-danger: #f7768e;
+  --color-info: #7dcfff;
+  --color-netbanner-text: #e0af68;
+  --shadow-tool: 0 1px 0 rgb(192 202 245 / 0.04), 0 8px 24px rgb(0 0 0 / 0.45);
+}
+
+html[data-theme="tokyo-night-day"] {
+  color-scheme: light;
+  --color-bg: #e1e2e7;
+  --color-bg-elevated: #d0d5e3;
+  --color-surface: #d5d6db;
+  --color-surface-2: #c4c8da;
+  --color-surface-3: #b6b8c5;
+  --color-border: #a8aecb;
+  --color-border-subtle: #c4c8da;
+  --color-border-focus: #2e7de9;
+  --color-ink: #3760bf;
+  --color-ink-muted: #40486a;
+  --color-ink-dim: #6172b0;
+  --color-accent: #2e7de9;
+  --color-accent-hover: #188092;
+  --color-accent-fg: #e1e2e7;
+  --color-success: #387068;
+  --color-warning: #8c6c3e;
+  --color-danger: #f52a65;
+  --color-info: #07879d;
+  --color-netbanner-text: #8c6c3e;
+  --shadow-tool: 0 1px 0 rgb(55 96 191 / 0.04), 0 8px 24px rgb(55 96 191 / 0.08);
+}
+
+/* Dracula / Alucard */
+html[data-theme="dracula"] {
+  color-scheme: dark;
+  --color-bg: #282a36;
+  --color-bg-elevated: #21222c;
+  --color-surface: #343746;
+  --color-surface-2: #3d4052;
+  --color-surface-3: #44475a;
+  --color-border: #6272a4;
+  --color-border-subtle: #44475a;
+  --color-border-focus: #bd93f9;
+  --color-ink: #f8f8f2;
+  --color-ink-muted: #e2e4d9;
+  --color-ink-dim: #6272a4;
+  --color-accent: #bd93f9;
+  --color-accent-hover: #ff79c6;
+  --color-accent-fg: #282a36;
+  --color-success: #50fa7b;
+  --color-warning: #f1fa8c;
+  --color-danger: #ff5555;
+  --color-info: #8be9fd;
+  --color-netbanner-text: #f1fa8c;
+  --shadow-tool: 0 1px 0 rgb(248 248 242 / 0.05), 0 8px 24px rgb(0 0 0 / 0.4);
+}
+
+html[data-theme="dracula-light"] {
+  color-scheme: light;
+  --color-bg: #fff8e8;
+  --color-bg-elevated: #fffbeb;
+  --color-surface: #fff1d6;
+  --color-surface-2: #efe4c8;
+  --color-surface-3: #e4d6b2;
+  --color-border: #d4c4a0;
+  --color-border-subtle: #efe4c8;
+  --color-border-focus: #644ac9;
+  --color-ink: #1f1f29;
+  --color-ink-muted: #3a3a4a;
+  --color-ink-dim: #6c664b;
+  --color-accent: #644ac9;
+  --color-accent-hover: #4b2bc0;
+  --color-accent-fg: #fff8e8;
+  --color-success: #14710a;
+  --color-warning: #846e15;
+  --color-danger: #cb3a2a;
+  --color-info: #036a96;
+  --color-netbanner-text: #846e15;
+  --shadow-tool: 0 1px 0 rgb(31 31 41 / 0.04), 0 8px 24px rgb(31 31 41 / 0.08);
+}
+
+html[data-theme] {
+  --color-accent-muted: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  --color-netbanner-bg: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  --color-netbanner-border: color-mix(in srgb, var(--color-warning) 35%, transparent);
+}

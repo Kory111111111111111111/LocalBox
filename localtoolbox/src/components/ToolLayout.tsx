@@ -1,44 +1,15 @@
 import type { ReactNode } from "react";
-import { CATEGORY_BY_ID, relatedTools, type ToolDef } from "../lib/registry";
+import { Link } from "wouter";
+import { CATEGORY_BY_ID, relatedTools } from "../lib/registry";
 import { useTool } from "./ToolContext";
-import PrivacyCallout from "./PrivacyCallout";
 import { NetworkBanner, ModelBanner } from "./NetworkBanner";
 import ToolCard from "./ToolCard";
 
-/** Category-aware default steps. Tools pass their own howTo for specifics. */
-function defaultHowTo(def: ToolDef): string[] {
-  if (def.needsNetwork) {
-    return [
-      "Type the domain, IP, or URL you want to look up.",
-      "Run the lookup and wait a moment for the response.",
-      "Review the results shown below the form.",
-      "Only the lookup you asked for is sent over the network — nothing else about you or your files.",
-    ];
-  }
-  const fileish = ["pdf", "image", "video", "file"].includes(def.category);
-  if (fileish) {
-    return [
-      "Add your file or files — drag and drop, or click the drop zone to pick them.",
-      "Adjust the options for the output you want.",
-      "Run the tool and wait for processing to finish.",
-      "Preview the result, then download it. Multi-file outputs arrive as a ZIP.",
-    ];
-  }
-  return [
-    "Enter or paste your input into the workspace.",
-    "Adjust the options to match what you need.",
-    "The result is computed instantly in your browser.",
-    "Copy it to your clipboard or download it as a file.",
-  ];
-}
-
 export default function ToolLayout({
   children,
-  howTo,
   hideRelated = false,
 }: {
   children: ReactNode;
-  howTo?: string[];
   hideRelated?: boolean;
 }) {
   const def = useTool();
@@ -47,13 +18,12 @@ export default function ToolLayout({
 
   return (
     <article className="max-w-4xl mx-auto">
-      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="text-xs text-ink-dim mb-3 flex gap-1.5 flex-wrap">
-        <a href="/" className="hover:text-ink-muted transition-colors">Home</a>
+        <Link href="/" className="hover:text-ink-muted transition-colors">Home</Link>
         <span aria-hidden>/</span>
-        <a href={`/category/${def.category}`} className="hover:text-ink-muted transition-colors">
+        <Link href={`/category/${def.category}`} className="hover:text-ink-muted transition-colors">
           {cat?.name ?? def.category}
-        </a>
+        </Link>
         <span aria-hidden>/</span>
         <span className="text-ink-muted">{def.name}</span>
       </nav>
@@ -68,27 +38,10 @@ export default function ToolLayout({
         {def.needsModel && <ModelBanner note={def.modelNote ?? undefined} />}
       </div>
 
-      {/* Workspace */}
       <section aria-label="Workspace" className="flex flex-col gap-4">
         {children}
       </section>
 
-      {/* How to use */}
-      <section className="mt-10" aria-label="How to use">
-        <h2 className="section-title">How to use</h2>
-        <ol className="card p-4 space-y-2.5">
-          {(howTo ?? defaultHowTo(def)).map((s, i) => (
-            <li key={i} className="flex gap-3 text-sm text-ink-muted">
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-accent-muted text-accent text-[11px] font-semibold shrink-0 mt-0.5">
-                {i + 1}
-              </span>
-              <span className="leading-relaxed">{s}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Related tools */}
       {related.length > 0 && (
         <section className="mt-8" aria-label="Related tools">
           <h2 className="section-title">Related tools</h2>
@@ -99,11 +52,6 @@ export default function ToolLayout({
           </div>
         </section>
       )}
-
-      {/* Privacy callout */}
-      <div className="mt-8">
-        <PrivacyCallout />
-      </div>
     </article>
   );
 }

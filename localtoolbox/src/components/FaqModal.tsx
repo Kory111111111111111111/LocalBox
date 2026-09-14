@@ -76,10 +76,6 @@ export default function FaqModal({ open, onClose }: { open: boolean; onClose: ()
           </button>
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
-          <p className="text-sm text-ink-muted mb-4 leading-relaxed">
-            The same answers apply to every tool. A few lookups need the network; those are labeled
-            on the tool page when you open them.
-          </p>
           <FaqAccordion items={SITE_FAQ} />
         </div>
       </div>

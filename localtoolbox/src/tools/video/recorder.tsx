@@ -110,7 +110,6 @@ export const ScreenRecorderTool: ComponentType = () => {
             </button>
           </div>
         )}
-        <Note>Your browser asks which screen or tab to share — LocalToolBox never sees that choice until recording starts, and the recording is written to memory in this tab. No upload is possible because there is nowhere to upload to.</Note>
       </div>
     </ToolLayout>
   );

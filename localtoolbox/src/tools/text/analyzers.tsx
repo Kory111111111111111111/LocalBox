@@ -22,7 +22,7 @@ import DOMPurify from "dompurify";
 import { CopyButton } from "../../components/ui";
 
 const LOREM =
-  "LocalToolBox keeps every file on your machine. Paste any text here to count words, measure reading time, and check readability. Everything is computed in your browser — nothing is uploaded, ever.";
+  "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump.";
 
 export const WordCountTool: ComponentType = () => {
   const [text, setText] = useState("");
@@ -446,7 +446,7 @@ export const MarkdownPreviewTool: ComponentType = () => {
         onChange={setText}
         inputLabel="Markdown"
         outputLabel="Preview"
-        sample={"# Welcome to LocalToolBox\n\nThis is **markdown** with *emphasis*, `code`, and a list:\n\n- Fully local\n- No uploads\n- Open source\n\n```js\nconst x = 42;\n```\n\n> Files stay on your device."}
+        sample={"# Heading\n\nThis is **markdown** with *emphasis*, `code`, and a list:\n\n- One\n- Two\n- Three\n\n```js\nconst x = 42;\n```\n\n> A blockquote."}
         rows={12}
         outputNode={
           <div className="flex flex-col gap-1.5">
