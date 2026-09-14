@@ -1,0 +1,63 @@
+// Text category implementation pack — all 42 tools.
+import type { ComponentType } from "react";
+import {
+  TextCaseTool, Rot13Tool, TextReverseTool, TextSorterTool, SortLinesTool,
+  RemoveDuplicatesTool, DuplicateLinesTool, TextCleanerTool, RemoveSpacesTool,
+  WordWrapTool, TextPaddingTool, NumberLinesTool, TruncateTool, RepeatTool,
+  SlugifyTool, SlugGeneratorTool, ExtractEmailsTool, ExtractUrlsTool,
+  ExtractNumbersTool, TextToHtmlTool, HtmlToTextTool, ReplaceTool,
+} from "./transforms";
+import {
+  WordCountTool, TextStatsTool, StringAnalyzerTool, TextStatisticsTool,
+  WordFrequencyTool, UnicodeInspectorTool, PalindromeTool, TextDiffTool,
+  MarkdownPreviewTool,
+} from "./analyzers";
+import {
+  LoremTool, LoremProTool, AsciiArtTool, EmojiPickerTool, TypingTestTool,
+  SsmlTool, BrailleTool, MorseTool, RomanTool, BinaryTool,
+} from "./generators";
+
+export const tools: Record<string, ComponentType> = {
+  "text-case": TextCaseTool,
+  "rot13": Rot13Tool,
+  "text-reverse": TextReverseTool,
+  "text-sorter": TextSorterTool,
+  "text-sort": SortLinesTool,
+  "text-remove-duplicates": RemoveDuplicatesTool,
+  "duplicate-lines": DuplicateLinesTool,
+  "text-cleaner": TextCleanerTool,
+  "text-remove-spaces": RemoveSpacesTool,
+  "word-wrapper": WordWrapTool,
+  "text-wrap": WordWrapTool,
+  "text-padding": TextPaddingTool,
+  "text-number-lines": NumberLinesTool,
+  "text-truncate": TruncateTool,
+  "text-repeat": RepeatTool,
+  "text-slugify": SlugifyTool,
+  "slug-generator-2": SlugGeneratorTool,
+  "text-extract-emails": ExtractEmailsTool,
+  "text-extract-urls": ExtractUrlsTool,
+  "text-extract-numbers": ExtractNumbersTool,
+  "text-to-html": TextToHtmlTool,
+  "html-to-text": HtmlToTextTool,
+  "text-replacer": ReplaceTool,
+  "word-count": WordCountTool,
+  "text-stats": TextStatsTool,
+  "string-analyzer": StringAnalyzerTool,
+  "text-statistics": TextStatisticsTool,
+  "word-frequency-map": WordFrequencyTool,
+  "unicode-inspector": UnicodeInspectorTool,
+  "palindrome-checker": PalindromeTool,
+  "text-diff": TextDiffTool,
+  "markdown-preview": MarkdownPreviewTool,
+  "text-lorem": LoremTool,
+  "lorem-ipsum-advanced": LoremProTool,
+  "ascii-art-text": AsciiArtTool,
+  "emoji-picker": EmojiPickerTool,
+  "speed-typing": TypingTestTool,
+  "text-to-speech-ssml": SsmlTool,
+  "braille-translator": BrailleTool,
+  "morse-code": MorseTool,
+  "roman-numerals": RomanTool,
+  "binary-text": BinaryTool,
+};
