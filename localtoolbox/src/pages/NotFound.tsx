@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { CATEGORIES } from "../lib/registry";
+import { usePageTitle } from "../lib/usePageTitle";
 
 export default function NotFound() {
+  usePageTitle("Page not found — LocalToolBox");
   return (
     <div className="max-w-xl mx-auto py-16 text-center">
       <div className="font-mono text-6xl text-accent mb-3">404</div>

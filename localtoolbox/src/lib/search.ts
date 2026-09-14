@@ -19,8 +19,8 @@ export function searchTools(query: string, tools: ToolDef[], limit = 24): ToolDe
       if (name === term) s = 120;
       else if (name.startsWith(term)) s = 100;
       else if (name.includes(term)) s = 70;
-      else if (t.tags.some((g) => g.startsWith(term))) s = 60;
-      else if (t.tags.some((g) => g.includes(term))) s = 40;
+      else if (t.tags.some((g) => g.toLowerCase().startsWith(term))) s = 60;
+      else if (t.tags.some((g) => g.toLowerCase().includes(term))) s = 40;
       else if (desc.includes(term)) s = 25;
       else if (cat.includes(term)) s = 20;
       if (s === 0) {

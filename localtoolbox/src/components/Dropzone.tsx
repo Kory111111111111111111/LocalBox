@@ -24,20 +24,30 @@ export default function Dropzone({
   hint?: ReactNode;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragCount = useRef(0);
   const [over, setOver] = useState(false);
 
   return (
     <div
-      className={`rounded-tool border-2 border-dashed p-6 text-center transition-colors cursor-pointer ${
+      className={`rounded-tool border-2 border-dashed px-6 py-10 min-h-44 text-center transition-colors cursor-pointer ${
         over ? "border-border-focus bg-accent-muted" : "border-border bg-surface-3 hover:border-ink-dim"
       }`}
-      onDragOver={(e) => {
+      onDragEnter={(e) => {
         e.preventDefault();
+        dragCount.current += 1;
         setOver(true);
       }}
-      onDragLeave={() => setOver(false)}
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        dragCount.current = Math.max(0, dragCount.current - 1);
+        if (dragCount.current === 0) setOver(false);
+      }}
       onDrop={(e) => {
         e.preventDefault();
+        dragCount.current = 0;
         setOver(false);
         const dropped = Array.from(e.dataTransfer.files);
         if (dropped.length) onFiles(multiple ? dropped : [dropped[0]]);
@@ -47,7 +57,10 @@ export default function Dropzone({
       tabIndex={0}
       aria-label="Drop files here or click to browse"
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
       }}
     >
       <input
@@ -78,6 +91,7 @@ export default function Dropzone({
               <span className="text-ink-dim text-xs tabular-nums shrink-0">{formatBytes(file.size)}</span>
               {onRemove && (
                 <button
+                  type="button"
                   className="text-ink-dim hover:text-danger transition-colors"
                   aria-label={`Remove ${file.name}`}
                   onClick={() => onRemove(id)}

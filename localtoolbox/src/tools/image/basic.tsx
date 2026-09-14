@@ -27,15 +27,29 @@ export function imageTool<S extends object>(cfg: ImgState<S>): ComponentType {
     const [result, setResult] = useState<{ url: string; blob: Blob; name: string } | null>(null);
     const previewRef = useRef<HTMLDivElement>(null);
     const file = files[0]?.file;
+    const resultRef = useRef(result);
+    resultRef.current = result;
+    const runId = useRef(0);
 
     useEffect(() => {
-      setResult(null);
+      runId.current += 1;
+      setResult((old) => {
+        if (old) URL.revokeObjectURL(old.url);
+        return null;
+      });
       setError(null);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file?.name, file?.size, state]);
 
+    useEffect(() => {
+      return () => {
+        if (resultRef.current) URL.revokeObjectURL(resultRef.current.url);
+      };
+    }, []);
+
     const run = async () => {
       if (!file) return;
+      const id = ++runId.current;
       setBusy(true);
       setError(null);
       try {
@@ -45,14 +59,19 @@ export function imageTool<S extends object>(cfg: ImgState<S>): ComponentType {
         const mime = cfg.outMime(state);
         const blob = await canvasToBlob(out, mime, cfg.outQuality?.(state) ?? 0.9);
         const name = cfg.outName?.(state, file) ?? `${baseNameOf(file.name) || "image"}-out.${EXT[mime] ?? "png"}`;
+        const url = URL.createObjectURL(blob);
+        if (id !== runId.current) {
+          URL.revokeObjectURL(url);
+          return;
+        }
         setResult((old) => {
           if (old) URL.revokeObjectURL(old.url);
-          return { url: URL.createObjectURL(blob), blob, name };
+          return { url, blob, name };
         });
       } catch (e) {
-        setError(e instanceof Error ? e.message : String(e));
+        if (id === runId.current) setError(e instanceof Error ? e.message : String(e));
       }
-      setBusy(false);
+      if (id === runId.current) setBusy(false);
     };
 
     return (
@@ -71,7 +90,7 @@ export function imageTool<S extends object>(cfg: ImgState<S>): ComponentType {
             )}
           </div>
           {result && (
-            <div ref={previewRef} className="card p-4 flex justify-center bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:20px_20px]">
+            <div ref={previewRef} className="card p-4 flex justify-center checkerboard">
               <img src={result.url} alt="Processed result preview" className="max-h-96 max-w-full object-contain rounded-tool-sm" />
             </div>
           )}
@@ -403,7 +422,7 @@ export const SvgToPngTool: ComponentType = () => {
           {result && <button className="btn-primary" onClick={() => downloadBlob("converted.png", result.blob)}>Download PNG</button>}
         </div>
         {result && (
-          <div className="card p-4 flex justify-center bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:20px_20px]">
+          <div className="card p-4 flex justify-center checkerboard">
             <img src={result.url} alt="Converted PNG preview" className="max-h-96 object-contain" />
           </div>
         )}
@@ -481,7 +500,7 @@ export const PngToSvgTool: ComponentType = () => {
         <RunButton onClick={run} busy={busy} disabled={!files.length} label="Vectorize to SVG" />
         {svg && (
           <>
-            <div className="card p-4 flex justify-center bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:20px_20px]">
+            <div className="card p-4 flex justify-center checkerboard">
               <img src={previewUrl} alt="Vectorized SVG preview" className="max-h-80 object-contain" />
             </div>
             <div className="flex gap-2">
@@ -565,7 +584,7 @@ export const Base64ToImageTool: ComponentType = () => {
         {text.trim() && !imgSrc && <Note kind="error">That doesn't look like a valid Base64 image string.</Note>}
         {imgSrc && (
           <>
-            <div className="card p-4 flex justify-center bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:20px_20px]">
+            <div className="card p-4 flex justify-center checkerboard">
               <img src={imgSrc} alt="Decoded image preview" className="max-h-96 object-contain" onError={() => setError("The browser could not decode this data as an image.")} />
             </div>
             <a className="btn-primary self-start" href={imgSrc} download="decoded-image.png">Download image</a>

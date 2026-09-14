@@ -58,6 +58,20 @@ export default function AppShell({ children }: { children: ReactNode }) {
     setFaqOpen(false);
   }, []);
 
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDrawerOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [drawerOpen]);
+
   const changeSection = useCallback(
     (section: SettingsSection) => {
       setSettingsSection(section);
@@ -70,53 +84,78 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:left-4 focus:top-3 focus:px-3 focus:py-1.5 focus:rounded-tool-sm focus:bg-accent focus:text-accent-fg"
+      >
+        Skip to content
+      </a>
       <header className="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-border-subtle">
-        <div className="relative flex items-center justify-center px-14 lg:px-4 h-14 w-full">
+        <div className="flex items-center gap-4 px-4 h-14 max-w-[1400px] mx-auto w-full">
           <button
-            className="lg:hidden absolute left-4 top-1/2 -translate-y-1/2 btn-ghost !px-2"
+            type="button"
+            className="lg:hidden btn-ghost px-2! shrink-0"
             aria-label={drawerOpen ? "Close menu" : "Open menu"}
+            aria-expanded={drawerOpen}
+            aria-controls="mobile-nav"
             onClick={() => setDrawerOpen((v) => !v)}
           >
             {drawerOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
-          <div className="flex items-center justify-center gap-3 w-full max-w-3xl">
-            <div className="min-w-0 flex-1">
-              <SearchBox />
-            </div>
-            <button
-              type="button"
-              className="btn-ghost !px-2.5 shrink-0"
-              aria-label="Open FAQ"
-              onClick={openFaq}
-            >
-              <CircleHelp size={16} />
-              <span className="hidden sm:inline text-sm">FAQ</span>
-            </button>
-            <button
-              type="button"
-              className="btn-ghost !px-2.5 shrink-0"
-              aria-label="Open settings"
-              onClick={() => openSettings(settingsSection)}
-            >
-              <Settings size={16} />
-              <span className="hidden sm:inline text-sm">Settings</span>
-            </button>
+          <Link
+            href="/"
+            className="hidden lg:flex items-center shrink-0 text-[15px] font-semibold tracking-tight hover:text-accent transition-colors"
+          >
+            LocalToolBox
+          </Link>
+          <div className="min-w-0 flex-1">
+            <SearchBox />
           </div>
+          <button
+            type="button"
+            className="btn-ghost px-2.5! shrink-0"
+            aria-label="Open FAQ"
+            aria-expanded={faqOpen}
+            onClick={openFaq}
+          >
+            <CircleHelp size={16} />
+            <span className="hidden sm:inline text-sm">FAQ</span>
+          </button>
+          <button
+            type="button"
+            className="btn-ghost px-2.5! shrink-0"
+            aria-label="Open settings"
+            aria-expanded={settingsOpen}
+            onClick={() => openSettings(settingsSection)}
+          >
+            <Settings size={16} />
+            <span className="hidden sm:inline text-sm">Settings</span>
+          </button>
         </div>
       </header>
 
       <div className="flex flex-1 max-w-[1400px] mx-auto w-full">
-        <aside className="hidden lg:block w-56 shrink-0 border-r border-border-subtle sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto">
+        <aside className="hidden lg:block w-56 shrink-0 border-r border-border-subtle sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto bg-bg z-20">
           <Sidebar />
         </aside>
         {drawerOpen && (
-          <div className="lg:hidden fixed inset-0 z-30 pt-14 bg-bg/98" role="dialog" aria-label="Navigation">
-            <div className="h-full overflow-y-auto px-4 pb-8">
+          <div className="lg:hidden fixed inset-0 z-30 pt-14">
+            <button
+              type="button"
+              className="absolute inset-0 bg-bg/80"
+              aria-label="Close menu"
+              onClick={() => setDrawerOpen(false)}
+            />
+            <nav
+              id="mobile-nav"
+              className="relative h-full overflow-y-auto px-4 pb-8 bg-bg border-r border-border-subtle max-w-xs"
+              aria-label="Navigation"
+            >
               <Sidebar />
-            </div>
+            </nav>
           </div>
         )}
-        <main className="flex-1 min-w-0 px-4 sm:px-6 py-6">{children}</main>
+        <main id="main" className="flex-1 min-w-0 px-4 sm:px-6 py-6">{children}</main>
       </div>
 
       <footer className="border-t border-border-subtle mt-10">

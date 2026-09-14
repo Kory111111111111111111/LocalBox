@@ -30,7 +30,9 @@ export default function ToolLayout({
 
       <header className="mb-5">
         <h1 className="text-2xl font-semibold tracking-tight">{def.name}</h1>
-        <p className="text-sm text-ink-muted mt-1">{def.description}.</p>
+        <p className="text-sm text-ink-muted mt-1">
+          {/[.!?…]$/.test(def.description.trimEnd()) ? def.description : `${def.description}.`}
+        </p>
       </header>
 
       <div className="flex flex-col gap-3 mb-6">
@@ -43,11 +45,11 @@ export default function ToolLayout({
       </section>
 
       {related.length > 0 && (
-        <section className="mt-8" aria-label="Related tools">
+        <section className="mt-14 pt-8 border-t border-border-subtle" aria-label="Related tools">
           <h2 className="section-title">Related tools</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {related.map((t) => (
-              <ToolCard key={t.slug} tool={t} />
+              <ToolCard key={t.slug} tool={t} compact />
             ))}
           </div>
         </section>

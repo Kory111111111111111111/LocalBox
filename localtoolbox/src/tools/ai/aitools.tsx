@@ -408,7 +408,7 @@ export const BackgroundRemoverTool: ComponentType = () => {
         {busy && status && <ProgressBar value={0.4} label={status} />}
         {resultUrl && resultBlob && (
           <>
-            <div className="card p-4 flex justify-center bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:20px_20px]">
+            <div className="card p-4 flex justify-center checkerboard">
               <img src={resultUrl} alt="Background removed result" className="max-h-96 object-contain rounded-tool-sm" />
             </div>
             <button className="btn-primary self-start" onClick={() => downloadBlob("no-background.png", resultBlob)}>Download PNG</button>

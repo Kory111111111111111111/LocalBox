@@ -26,7 +26,7 @@ Source: https://github.com/Kory111111111111111111/LocalBox (MIT).
 
 ## Docs
 
-- [Home](${href("/")}): category bays and featured tools
+- [Home](${href("/")}): categories and featured tools
 - [About / Privacy / Terms](${href("/about")}): opens in Settings — files stay on device, no accounts
 - [Terms](${href("/terms")}): terms of use
 - This file: ${href("/llms.txt")}

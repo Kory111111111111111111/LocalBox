@@ -10,7 +10,7 @@ Source: https://github.com/Kory111111111111111111/LocalBox (MIT).
 
 ## Docs
 
-- [Home](/): category bays and featured tools
+- [Home](/): categories and featured tools
 - [About / Privacy / Terms](/about): opens in Settings — files stay on device, no accounts
 - [Terms](/terms): terms of use
 - This file: /llms.txt

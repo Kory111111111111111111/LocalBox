@@ -140,6 +140,9 @@ export const THEME_FAMILIES = [
   "Dracula",
 ] as const;
 
+/** Keep the light-id list in `index.html` boot script in sync with this. */
+export const LIGHT_THEME_IDS: ThemeId[] = THEMES.filter((t) => t.appearance === "light").map((t) => t.id);
+
 const THEME_ID_SET = new Set<string>(THEME_IDS);
 
 export function isThemeId(value: string | null | undefined): value is ThemeId {

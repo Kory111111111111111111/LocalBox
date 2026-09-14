@@ -12,7 +12,7 @@ function Playground({ options, preview, css, filename = "styles.css" }: {
       {options}
       <div className="flex flex-col gap-2">
         <span className="label">Live preview</span>
-        <div className="card p-8 flex items-center justify-center min-h-56 overflow-auto bg-[repeating-conic-gradient(#0d1322_0%_25%,#111a2e_0%_50%)] bg-[length:22px_22px] rounded-tool">
+        <div className="card p-8 flex items-center justify-center min-h-56 overflow-auto checkerboard rounded-tool">
           {preview}
         </div>
       </div>

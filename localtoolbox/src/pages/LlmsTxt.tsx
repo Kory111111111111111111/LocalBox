@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { buildLlmsMarkdown } from "../lib/llmsMarkdown";
 import { assetUrl } from "../lib/paths";
+import { usePageTitle } from "../lib/usePageTitle";
 
 export default function LlmsTxt() {
   const markdown = useMemo(() => buildLlmsMarkdown(), []);
+  usePageTitle("llms.txt — LocalToolBox");
 
   return (
     <div className="max-w-3xl mx-auto">

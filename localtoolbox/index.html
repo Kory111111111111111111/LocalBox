@@ -13,7 +13,20 @@
     <script>
       try {
         var t = localStorage.getItem("ltb-theme");
-        if (t) document.documentElement.setAttribute("data-theme", t);
+        if (t) {
+          document.documentElement.setAttribute("data-theme", t);
+          var light = {
+            "default-light": 1,
+            "nord-light": 1,
+            "gruvbox-light": 1,
+            "catppuccin-latte": 1,
+            "tokyo-night-day": 1,
+            "dracula-light": 1
+          };
+          var appearance = light[t] ? "light" : "dark";
+          document.documentElement.setAttribute("data-appearance", appearance);
+          document.documentElement.style.colorScheme = appearance;
+        }
       } catch (e) {}
     </script>
   </head>

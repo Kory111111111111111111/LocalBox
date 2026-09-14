@@ -1,17 +1,27 @@
 // Small form + output primitives shared by tool workbenches.
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Check, Copy, Download, AlertTriangle, Info } from "lucide-react";
 import { copyToClipboard, downloadText } from "../lib/download";
 
 export function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
   const [done, setDone] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
+
   return (
     <button
+      type="button"
       className="btn-ghost !py-1 !px-2 text-xs"
       onClick={async () => {
         if (await copyToClipboard(text)) {
           setDone(true);
-          setTimeout(() => setDone(false), 1400);
+          if (timer.current) clearTimeout(timer.current);
+          timer.current = setTimeout(() => setDone(false), 1400);
         }
       }}
       disabled={!text}
@@ -35,6 +45,7 @@ export function DownloadTextButton({
 }) {
   return (
     <button
+      type="button"
       className="btn-ghost !py-1 !px-2 text-xs"
       disabled={!text}
       onClick={() => downloadText(filename, text, mime)}

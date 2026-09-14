@@ -3,7 +3,7 @@
 import { useMemo, useState, type ComponentType } from "react";
 import ToolLayout from "../../components/ToolLayout";
 import EditorPane from "../../components/EditorPane";
-import { NumField, OptionsBar, OutputArea, SelField, StatGrid, Toggle } from "../../components/ui";
+import { CopyButton, NumField, Note, OptionsBar, OutputArea, SelField, StatGrid, Toggle } from "../../components/ui";
 import {
   charDistribution,
   countParagraphs,
@@ -19,7 +19,6 @@ import {
 import { diffLines } from "../../lib/diff";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
-import { CopyButton } from "../../components/ui";
 
 const LOREM =
   "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump.";
@@ -428,16 +427,18 @@ export const TextDiffTool: ComponentType = () => {
 
 export const MarkdownPreviewTool: ComponentType = () => {
   const [text, setText] = useState("");
-  const html = useMemo(() => {
-    if (!text.trim()) return "";
+  const parsed = useMemo(() => {
+    if (!text.trim()) return { html: "", error: null as string | null };
     try {
-      return DOMPurify.sanitize(marked.parse(text, { async: false }) as string);
+      return {
+        html: DOMPurify.sanitize(marked.parse(text, { async: false }) as string),
+        error: null as string | null,
+      };
     } catch (e) {
-      return `<p style="color:#ef4444">Parse error: ${String(e)}</p>`;
+      return { html: "", error: e instanceof Error ? e.message : String(e) };
     }
   }, [text]);
-  const raw = html;
-  void raw;
+  const { html, error } = parsed;
 
   return (
     <ToolLayout>
@@ -453,6 +454,7 @@ export const MarkdownPreviewTool: ComponentType = () => {
             <div className="flex items-center">
               <span className="ml-auto"><CopyButton text={html} label="Copy HTML" /></span>
             </div>
+            {error && <Note kind="error">{error}</Note>}
             <div
               className="card p-4 prose-invert text-sm leading-relaxed max-h-[32rem] overflow-auto [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mt-4 [&_h1]:mb-2 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-3 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_a]:text-accent [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-3 [&_blockquote]:text-ink-muted [&_code]:bg-surface-3 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-surface-3 [&_pre]:p-3 [&_pre]:rounded [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_table]:w-full [&_th]:border [&_th]:border-border [&_th]:px-2 [&_th]:py-1 [&_td]:border [&_td]:border-border [&_td]:px-2 [&_td]:py-1 [&_hr]:border-border [&_hr]:my-4 [&_img]:max-w-full"
               dangerouslySetInnerHTML={{ __html: html || "<p class='text-ink-dim'>Preview appears here.</p>" }}

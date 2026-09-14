@@ -85,7 +85,7 @@ export default function SettingsModal({
                 <button
                   key={item.id}
                   type="button"
-                  aria-current={active ? "page" : undefined}
+                  aria-current={active ? "true" : undefined}
                   onClick={() => onSectionChange(item.id)}
                   className={`flex items-center gap-2 rounded-tool-sm px-3 py-2 text-sm shrink-0 transition-colors ${
                     active

@@ -1,3 +1,5 @@
+import { usePageTitle } from "../lib/usePageTitle";
+
 export function TermsBody() {
   return (
       <div className="space-y-6 text-sm text-ink-muted leading-relaxed">
@@ -78,6 +80,7 @@ export function TermsBody() {
 }
 
 export default function Terms() {
+  usePageTitle("Terms of use — LocalToolBox");
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold tracking-tight mb-2">Terms of use</h1>

@@ -1,5 +1,5 @@
 // Screen recorder — getDisplayMedia + MediaRecorder, everything stays local.
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
 import ToolLayout from "../../components/ToolLayout";
 import { Note, OptionsBar, RunButton, SelField, Toggle } from "../../components/ui";
 import { downloadBlob, formatBytes } from "../../lib/download";
@@ -15,6 +15,14 @@ export const ScreenRecorderTool: ComponentType = () => {
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<number | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const previewUrl = useMemo(() => (result ? URL.createObjectURL(result.blob) : null), [result]);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   useEffect(() => () => stopStreams(), []);
 
@@ -23,6 +31,10 @@ export const ScreenRecorderTool: ComponentType = () => {
     streamRef.current = null;
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = null;
+    if (audioCtxRef.current) {
+      void audioCtxRef.current.close();
+      audioCtxRef.current = null;
+    }
   };
 
   const pickMime = () => {
@@ -43,6 +55,7 @@ export const ScreenRecorderTool: ComponentType = () => {
         try {
           const mic = await navigator.mediaDevices.getUserMedia({ audio: true });
           const ctx = new AudioContext();
+          audioCtxRef.current = ctx;
           const dest = ctx.createMediaStreamDestination();
           ctx.createMediaStreamSource(mic).connect(dest);
           dest.stream.getAudioTracks().forEach((t) => stream.addTrack(t));
@@ -52,7 +65,8 @@ export const ScreenRecorderTool: ComponentType = () => {
       }
       streamRef.current = stream;
       chunksRef.current = [];
-      const rec = new MediaRecorder(stream, { mimeType: pickMime() || undefined });
+      const selected = mimeType && MediaRecorder.isTypeSupported(mimeType) ? mimeType : "";
+      const rec = new MediaRecorder(stream, { mimeType: selected || pickMime() || undefined });
       rec.ondataavailable = (e) => e.data.size > 0 && chunksRef.current.push(e.data);
       rec.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: rec.mimeType || "video/webm" });
@@ -104,7 +118,7 @@ export const ScreenRecorderTool: ComponentType = () => {
             <div className="text-sm">
               Recording ready — <strong>{formatBytes(result.size)}</strong>. It lives only in this tab until you save it.
             </div>
-            <video src={URL.createObjectURL(result.blob)} controls className="max-h-96 rounded-tool border border-border" />
+            <video src={previewUrl ?? undefined} controls className="max-h-96 rounded-tool border border-border" />
             <button className="btn-primary self-start" onClick={() => downloadBlob(`screen-recording.${result.blob.type.includes("mp4") ? "mp4" : "webm"}`, result.blob)}>
               Download recording
             </button>

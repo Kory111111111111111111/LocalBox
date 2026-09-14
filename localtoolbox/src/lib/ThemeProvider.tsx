@@ -24,8 +24,9 @@ function appearanceOf(id: ThemeId): "dark" | "light" {
 
 export function applyTheme(id: ThemeId) {
   const root = document.documentElement;
-  root.setAttribute("data-theme", id);
   const appearance = appearanceOf(id);
+  root.setAttribute("data-theme", id);
+  root.setAttribute("data-appearance", appearance);
   root.style.colorScheme = appearance;
   document.querySelector('meta[name="color-scheme"]')?.setAttribute("content", appearance);
 }

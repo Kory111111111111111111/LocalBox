@@ -1,5 +1,4 @@
 # Rebuild and publish the site on every commit pushed to main.
-# Repo Settings → Pages → Source: GitHub Actions (required once).
 name: Deploy site
 
 on:
@@ -25,6 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: pnpm/action-setup@v4
         with:
           version: 9

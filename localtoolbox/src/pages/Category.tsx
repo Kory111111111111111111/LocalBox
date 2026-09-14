@@ -2,10 +2,16 @@ import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { CATEGORIES, CATEGORY_BY_ID, toolsIn } from "../lib/registry";
 import ToolCard from "../components/ToolCard";
+import { usePageTitle } from "../lib/usePageTitle";
 
 export default function Category({ params }: { params: { id: string } }) {
   const cat = CATEGORY_BY_ID.get(params.id);
-  const [q, setQ] = useState("");
+  const [filter, setFilter] = useState({ id: params.id, q: "" });
+  if (filter.id !== params.id) {
+    setFilter({ id: params.id, q: "" });
+  }
+  const q = filter.q;
+  usePageTitle(cat ? `${cat.name} — LocalToolBox` : "Category not found — LocalToolBox");
 
   const tools = useMemo(() => {
     if (!cat) return [];
@@ -16,7 +22,7 @@ export default function Category({ params }: { params: { id: string } }) {
       (t) =>
         t.name.toLowerCase().includes(query) ||
         t.description.toLowerCase().includes(query) ||
-        t.tags.some((g) => g.includes(query)),
+        t.tags.some((g) => g.toLowerCase().includes(query)),
     );
   }, [cat, q]);
 
@@ -52,7 +58,7 @@ export default function Category({ params }: { params: { id: string } }) {
         className="input max-w-sm mb-5"
         placeholder={`Search in ${cat.name}…`}
         value={q}
-        onChange={(e) => setQ(e.target.value)}
+        onChange={(e) => setFilter((prev) => ({ ...prev, q: e.target.value }))}
         aria-label={`Search ${cat.name}`}
       />
 

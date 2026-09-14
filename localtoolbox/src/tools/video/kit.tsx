@@ -101,6 +101,10 @@ export function makeFFmpegTool<S extends object>(cfg: FFToolConfig<S>): Componen
       };
       el.onerror = () => URL.revokeObjectURL(url);
       el.src = url;
+      return () => {
+        el.src = "";
+        URL.revokeObjectURL(url);
+      };
     }, [files]);
 
     return (

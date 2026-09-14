@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { CATEGORIES, TOOLS, toolsIn, type ToolDef } from "../lib/registry";
 import { CATEGORY_META, iconFor } from "../lib/icons";
 import ToolCard from "../components/ToolCard";
-import PrivacyCallout from "../components/PrivacyCallout";
 import { ArrowRight } from "lucide-react";
+import { DEFAULT_DOCUMENT_TITLE, usePageTitle } from "../lib/usePageTitle";
 
 function starters(categoryId: string, limit = 3): ToolDef[] {
   const list = toolsIn(categoryId);
@@ -14,29 +14,40 @@ function starters(categoryId: string, limit = 3): ToolDef[] {
 }
 
 export default function Home() {
+  const [location] = useLocation();
   const popular = useMemo(() => TOOLS.filter((t) => t.featured).slice(0, 8), []);
+  const title =
+    location === "/about"
+      ? "About — LocalToolBox"
+      : location === "/privacy"
+        ? "Privacy — LocalToolBox"
+        : DEFAULT_DOCUMENT_TITLE;
+  usePageTitle(title);
 
   return (
     <div className="max-w-5xl mx-auto">
-      <header className="mb-6">
-        <p className="text-xs font-medium text-ink-dim uppercase tracking-wider mb-1.5">Homebase</p>
+      <header className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-          Pick a bay. Stay on this machine.
+          Files stay on this machine.
         </h1>
-        <p className="text-sm text-ink-muted mt-2 max-w-2xl leading-relaxed">
-          {TOOLS.length} tools in {CATEGORIES.length} bays.
+        <p className="text-sm text-ink-muted mt-2 max-w-xl leading-relaxed">
+          {TOOLS.length} tools. They run in this tab — no upload, no account.
         </p>
       </header>
 
-      <div className="mb-8">
-        <PrivacyCallout />
-      </div>
+      {popular.length > 0 && (
+        <section className="mb-10" aria-label="Featured tools">
+          <h2 className="section-title">Featured</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            {popular.map((t) => (
+              <ToolCard key={t.slug} tool={t} compact />
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section className="mb-10" aria-label="Tool bays">
-        <div className="flex items-baseline justify-between gap-3 mb-3">
-          <h2 className="section-title !mb-0">Bays</h2>
-          <span className="text-[11px] text-ink-dim">{CATEGORIES.length} categories</span>
-        </div>
+      <section aria-label="Categories">
+        <h2 className="section-title">Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {CATEGORIES.map((c) => {
             const Icon = iconFor(c.icon, c.id);
@@ -73,9 +84,8 @@ export default function Home() {
                     <li key={t.slug}>
                       <Link
                         href={`/tools/${t.slug}`}
-                        className="flex items-center gap-2 rounded-tool-sm px-1.5 py-1 text-[13px] text-ink-muted hover:text-ink hover:bg-surface-2 transition-colors"
+                        className="flex items-center rounded-tool-sm px-1.5 py-1 text-[13px] text-ink-muted hover:text-ink hover:bg-surface-2 transition-colors"
                       >
-                        <span className="w-1 h-1 rounded-full bg-ink-dim shrink-0" aria-hidden />
                         {t.name}
                       </Link>
                     </li>
@@ -84,15 +94,6 @@ export default function Home() {
               </article>
             );
           })}
-        </div>
-      </section>
-
-      <section aria-label="Popular tools">
-        <h2 className="section-title">Grab these first</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          {popular.map((t) => (
-            <ToolCard key={t.slug} tool={t} compact />
-          ))}
         </div>
       </section>
     </div>
